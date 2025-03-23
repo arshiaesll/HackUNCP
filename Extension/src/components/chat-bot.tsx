@@ -61,6 +61,8 @@ export default function ChatBot({ messages, onSend }: ChatBotProps) {
             padding: "0.25em",
             border: "1px solid #333",
             borderRadius: "0.5em",
+            color: "#eee",
+            backgroundColor: "#555",
           }}
           value={input}
           onChange={(e) => setInput(e.target.value)}
@@ -77,6 +79,7 @@ export default function ChatBot({ messages, onSend }: ChatBotProps) {
             outline: "none",
             borderRadius: "0.5em",
             cursor: "pointer",
+            color: "#eee",
           }}
         >
           {isLoading ? "Loading..." : "Send"}
@@ -95,6 +98,7 @@ const userStyles: CSSProperties = {
   backgroundColor: "#444",
   borderRadius: "0.5em",
   padding: "0.5em",
+  color: "#eee",
 };
 
 const aiStyles: CSSProperties = {
@@ -106,4 +110,5 @@ const aiStyles: CSSProperties = {
   backgroundColor: "#656565",
   borderRadius: "0.5em",
   padding: "0.5em",
+  color: "#eee",
 };
