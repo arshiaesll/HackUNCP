@@ -4,16 +4,21 @@ import os
 import sys
 import json
 
+from flask import request, jsonify
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 sys.path.append(parent_dir)
 sys.path.append(os.path.join(parent_dir, "Util"))
 
 
-from Util.gemini import Manager
+from Util.gemini import Manager, chat_with_gemini
 
 app = Flask(__name__)
 CORS(app)
+
+conversations = {
+
+}
 
 
 @app.route("/")
@@ -21,10 +26,42 @@ CORS(app)
 def home():
     return "Welcome to the backend server!"
 
+
+@app.route('/chat', methods=["POST"])
+@cross_origin(origins="*")
+def chatbot():
+    
+    try:
+        data = request.get_json()
+        user_input = data.get("user_input")
+        conversation_id = data.get("conversation_id")
+        if not data:
+            return jsonify({"error": "No data provided"}), 400
+
+        paragraphs = data.get("paragraphs")
+
+        if not paragraphs:
+            return jsonify({"error": "Paragraphs not provided"}), 400
+
+        if conversation_id not in conversations.keys():
+            conversations[conversation_id] = []
+        # print(conversations)
+        response, history = chat_with_gemini(user_input, conversations[conversation_id], paragraphs)
+        print(history)
+        conversations[conversation_id] = history
+
+        return jsonify({
+            "status": "success",
+            "message": "Processed HTML page and paragraphs",
+            "output_dict": response
+        })
+    except Exception as e:
+        print(e)
+        return jsonify({"error": "Error in chatbot"}), 500
+        
 @app.route("/", methods=["POST"])
 @cross_origin(origins="*")
 def process_html():
-    from flask import request, jsonify
     
     try:
         data = request.get_json()
