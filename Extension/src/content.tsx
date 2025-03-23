@@ -56,7 +56,6 @@ function Sidebar({ scrollRef }: SidebarProps) {
       });
       const data = await res.json();
       setProcessed(data.output_dict);
-      console.log("Response from server:", data);
     } catch (error) {
       console.error("Error fetching summaries:", error);
     } finally {
@@ -70,7 +69,7 @@ function Sidebar({ scrollRef }: SidebarProps) {
 
   async function fetchChat(message: string) {
     try {
-      // const data = "response";
+      console.log(document.body.innerText);
       const res = await fetch(`${serverUrl}/chat`, {
         method: "POST",
         headers: {
@@ -79,7 +78,6 @@ function Sidebar({ scrollRef }: SidebarProps) {
         body: JSON.stringify({
           html: document.body.innerText,
           user_input: message,
-          paragraphs: pTags.slice(0, 50),
           conversation_id: convoId,
         }),
       });
@@ -111,7 +109,7 @@ function Sidebar({ scrollRef }: SidebarProps) {
           placeItems: "center",
         }}
       >
-        <p>Loading...</p>
+        <p style={{ color: "#eee" }}>Loading...</p>
       </div>
     );
   }
@@ -142,6 +140,7 @@ function Sidebar({ scrollRef }: SidebarProps) {
             borderRadius: "0.5em",
             cursor: "pointer",
             fontWeight: 600,
+            color: "#eee",
           }}
         >
           Summarize
@@ -157,6 +156,7 @@ function Sidebar({ scrollRef }: SidebarProps) {
             borderRadius: "0.5em",
             cursor: "pointer",
             fontWeight: 600,
+            color: "#eee",
           }}
         >
           Chat

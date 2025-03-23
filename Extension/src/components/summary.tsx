@@ -131,7 +131,12 @@ export default function Summary({ scrollRef, paragraphs }: SummaryProps) {
       {shown.map((p) => (
         <p
           key={p.id}
-          style={{ marginBottom: "1rem", cursor: "pointer", fontSize }}
+          style={{
+            marginBottom: "1rem",
+            cursor: "pointer",
+            fontSize,
+            color: "#eee",
+          }}
           onMouseEnter={() => highlightParagraph(p.id)}
           onMouseLeave={() => removeHighlight(p.id)}
         >
