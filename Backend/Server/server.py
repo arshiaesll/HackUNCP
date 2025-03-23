@@ -41,9 +41,10 @@ def process_html():
         paragraph_data = []
         # print(paragraphs)
         # for paragraph in paragraphs:
-        summaries = manager.generate_paragraph_summary(paragraphs)
+        # summaries = manager.generate_paragraph_summary(paragraphs)
 
-        definitions = manager.generate_technical_words(paragraphs)
+        # definitions = manager.generate_technical_words(paragraphs)
+        generation=manager.generate(paragraphs)
         # Add each paragraph's data to the list
         # for summary in summaries:
         #     id = summary["id"]
@@ -59,8 +60,7 @@ def process_html():
         return jsonify({
             "status": "success",
             "message": "Processed HTML page and paragraphs",
-            "paragraphs": summaries,
-            'WordsAndDefinition': definitions
+            "output_dict": generation
         })
         
         
