@@ -57,6 +57,66 @@ export default function Summary({ paragraphs }: SummaryProps) {
     };
   }, [paragraphs]);
 
+  function DefinitionSpan({ word, definition }: { word: string; definition: string }) {
+    const [hovered, setHovered] = useState(false);
+
+    return (
+      <span
+        style={{ position: "relative", cursor: "help", display: "inline-block" }}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
+        {word}
+        {hovered && (
+          <div
+            style={{
+              position: "absolute",
+              top: "100%",
+              left: 0,
+              marginTop: "0.25rem",
+              background: "#fff",
+              border: "1px solid #ccc",
+              padding: "0.5rem",
+              width: "200px",
+              boxShadow: "0 2px 5px rgba(0,0,0,0.15)",
+              zIndex: 9999,
+            }}
+          >
+            {definition}
+          </div>
+        )}
+      </span>
+    );
+  }
+  function highlightDefinitions(
+    paragraphText: string,
+    definitionList?: { word: string; def: string }[]
+  ): React.ReactNode {
+    if (!definitionList) {
+      return paragraphText;
+    }
+  
+    const tokens = paragraphText.split(/\s+/);
+  
+    return tokens.map((token, i) => {
+      const cleaned = token.replace(/[^\w]/g, "").toLowerCase();
+      const match = definitionList.find((d) => d.word.toLowerCase() === cleaned);
+  
+      if (match) {
+        return (
+          <React.Fragment key={i}>
+            <DefinitionSpan
+              word={token}
+              definition={match.def}
+            />{" "}
+          </React.Fragment>
+        );
+      }
+      return token + " ";
+    });
+  }
+  
+
   return (
     <div>
       {shown.map((p) => (
@@ -66,7 +126,7 @@ export default function Summary({ paragraphs }: SummaryProps) {
           onMouseEnter={() => highlightParagraph(p.id)}
           onMouseLeave={() => removeHighlight(p.id)}
         >
-          {p.summary}
+         {highlightDefinitions(p.summary, p.definitions)}
         </p>
       ))}
     </div>
