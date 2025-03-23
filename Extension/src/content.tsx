@@ -5,12 +5,25 @@ import { ProcessedParagraph } from "./util/types";
 
 const pTags = parseHtml();
 
-function App() {
+type PageBodyProps = {
+  innerHtml: string;
+};
+
+function PageBody({ innerHtml }: PageBodyProps) {
+  return (
+    <body style={{ display: "grid", gridTemplateColumns: "3fr 1fr" }}>
+      <div dangerouslySetInnerHTML={{ __html: innerHtml }} />
+      <Sidebar />
+    </body>
+  );
+}
+
+function Sidebar() {
   const [processed, setProcessed] = useState<ProcessedParagraph[]>([]);
 
   async function fetchParagraphs() {
     try {
-      const res = await fetch("http://127.0.0.1:5000", {
+      const res = await fetch("http://127.0.0.1:5002", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -20,38 +33,45 @@ function App() {
         }),
       });
       const data = await res.json();
+      setProcessed(data.output_dict);
       console.log(data);
     } catch (error) {
       console.error(error);
     }
   }
 
+  function checkParagraphs() {
+    const paragraphs = document.querySelectorAll("p");
+    for (const p of paragraphs) {
+      if (p.getBoundingClientRect().top < window.innerHeight) {
+        p.style.backgroundColor = "yellow";
+      }
+    }
+  }
+
   useEffect(() => {
     fetchParagraphs();
+
+    document.addEventListener("scroll", checkParagraphs);
+    return () => document.removeEventListener("scroll", checkParagraphs);
   }, []);
 
   return (
-    <div
-      style={{
-        position: "fixed",
-        top: "10px",
-        right: "10px",
-        padding: "20px",
-        backgroundColor: "#282c34",
-        color: "white",
-        borderRadius: "8px",
-        zIndex: 9999,
-      }}
-    >
-      🎉 Hello from React!
+    <div>
+      <p>Sidebar</p>
+      {processed.map((p) => (
+        <p key={p.id}>{p.summary}</p>
+      ))}
     </div>
   );
 }
 
 // Create container in the page
-const rootContainer = document.createElement("div");
-document.body.appendChild(rootContainer);
 
-// Render the app
-const root = createRoot(rootContainer);
-root.render(<App />);
+const html = document.querySelector("html")!;
+const body = document.querySelector("body")!;
+const innerHtml = body.outerHTML;
+html.innerHTML = "";
+
+const root = createRoot(html);
+root.render(<PageBody innerHtml={innerHtml} />);
