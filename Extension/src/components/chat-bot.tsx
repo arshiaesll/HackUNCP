@@ -1,4 +1,4 @@
-import React, { CSSProperties, useState } from "react";
+import React, { CSSProperties, useRef, useState } from "react";
 import { fontSize, Message } from "../util/types";
 
 type ChatBotProps = {
@@ -9,24 +9,31 @@ type ChatBotProps = {
 export default function ChatBot({ messages, onSend }: ChatBotProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [input, setInput] = useState("");
+  const containerRef = useRef<HTMLDivElement>(null);
 
   async function handleSend() {
     setIsLoading(true);
     await onSend(input);
     setInput("");
     setIsLoading(false);
+    // scroll container ref to bottom
+    if (containerRef.current) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight;
+    }
   }
 
   return (
     <div
+      ref={containerRef}
       style={{
         position: "relative",
         height: "100%",
         width: "100%",
         display: "flex",
         flexDirection: "column",
-        paddingBottom: "6em",
+        paddingBottom: "10em",
         gap: "0.5em",
+        overflowY: "auto",
       }}
     >
       {messages.map((m) => (
@@ -52,6 +59,8 @@ export default function ChatBot({ messages, onSend }: ChatBotProps) {
             resize: "none",
             fontSize,
             padding: "0.25em",
+            border: "1px solid #333",
+            borderRadius: "0.5em",
           }}
           value={input}
           onChange={(e) => setInput(e.target.value)}

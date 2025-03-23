@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { RefObject, useEffect, useState } from "react";
 import { fontSize, ProcessedParagraph } from "../util/types";
 import { tagType } from "../util/parser";
 
 type SummaryProps = {
+  scrollRef: RefObject<HTMLDivElement | null>;
   paragraphs: ProcessedParagraph[];
 };
 
-export default function Summary({ paragraphs }: SummaryProps) {
+export default function Summary({ scrollRef, paragraphs }: SummaryProps) {
   const [shown, setShown] = useState<ProcessedParagraph[]>([]);
 
   function highlightParagraph(id: string) {
@@ -49,11 +50,11 @@ export default function Summary({ paragraphs }: SummaryProps) {
       setShown(visible);
     }
 
-    window.addEventListener("scroll", checkParagraphsInView);
+    scrollRef?.current?.addEventListener("scroll", checkParagraphsInView);
     checkParagraphsInView();
 
     return () => {
-      window.removeEventListener("scroll", checkParagraphsInView);
+      scrollRef.current?.removeEventListener("scroll", checkParagraphsInView);
     };
   }, [paragraphs]);
 
