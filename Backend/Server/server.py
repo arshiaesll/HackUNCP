@@ -30,28 +30,25 @@ def process_html():
         if not data:
             return jsonify({"error": "No data provided"}), 400
             
-        html_page = data.get("html_page")
+        # html_page = data.get("html_page")
         paragraphs = data.get("paragraphs")
         
-        if not html_page:
-            return jsonify({"error": "HTML page not provided"}), 400
         if not paragraphs:
             return jsonify({"error": "Paragraphs not provided"}), 400
         manager = Manager()
-        page_summary = manager.generate_pdf_summary(html_page)
         
         # Create a list to store paragraph data
         paragraph_data = []
-        
-        for paragraph in paragraphs:
-            summary = manager.generate_paragraph_summary(paragraph["text"])
-            definitions = manager.generate_technical_words(paragraph["text"])
-            # Add each paragraph's data to the list
-            paragraph_data.append({
-                "id": paragraph["id"],
-                "summary": summary,
-                "technical_definitions": definitions
-            })
+        print(paragraphs)
+        # for paragraph in paragraphs:
+        summary = manager.generate_paragraph_summary(paragraphs)
+
+        definitions = manager.generate_technical_words(paragraphs)
+        # Add each paragraph's data to the list
+        paragraph_data.append({
+            "summary": summary,
+            "technical_definitions": definitions
+        })
         
         # Process the HTML and paragraphs here
         # This is where you'd add your business logic
