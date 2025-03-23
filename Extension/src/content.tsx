@@ -94,6 +94,7 @@ function Sidebar() {
         <button onClick={() => setMode("summary")}>Summarize</button>
         <button onClick={() => setMode("chat")}>Chat</button>
       </div>
+
       {mode === "summary" && <Summary paragraphs={processed} />}
       {mode === "chat" && <ChatBot messages={messages} onSend={fetchChat} />}
     </div>
@@ -102,7 +103,6 @@ function Sidebar() {
 
 const body = document.querySelector("body")!;
 const innerHtml = body.innerHTML;
-
 body.innerHTML = "";
 
 const container = document.createElement("div");
