@@ -31,10 +31,9 @@ export default class Parser {
     const pageContent = document.createElement("div");
     const newBody = document.createElement("body");
     newBody.style.display = "grid";
-    newBody.style.gridTemplateColumns = "2fr 1fr";
+    newBody.style.gridTemplateColumns = "3fr 1fr";
     newBody.appendChild(pageContent);
     newBody.appendChild(sidebar);
-    // put document.body children into pageContent
     while (document.body.firstChild) {
       pageContent.appendChild(document.body.firstChild);
     }
