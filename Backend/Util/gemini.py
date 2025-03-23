@@ -96,6 +96,17 @@ class Manager:
 #             +self.context
 #         )
 #         self.history = [default_prompt]
+
+def get_para_id(user_input, response, paragraphs):
+    prompt = (
+        "My chatbot is getting a response within the context of my text. Given this question and answer "
+        f"tell me the paragraph id where this response came from. Only give me the id, nothing else. "
+        "If you cannot associate the answer with an id, return an empty message. "
+        f"Question: {user_input}, Answer: {response.text} "        
+        f"Get the id from my paragraphs dictionary here: {paragraphs}"
+    ) 
+    return model.generate_content(prompt).text
+
     
 def chat_with_gemini(user_input, history, paragraphs):
     
@@ -120,11 +131,39 @@ def chat_with_gemini(user_input, history, paragraphs):
     prompt_prefix = "IN A MAXIMUM OF A FEW SENTENCES GIVE ME A RESPONSE TO: "
     message = {"role": "user", "parts": [prompt_prefix + user_input]}
     
-    # Create a proper chat for Gemini
     chat = model.start_chat(history=history)
     response = chat.send_message(message["parts"][0])
+
+    history.append(message)
+    history.append({"role": "model", "parts": [response.text]})
+
+    para_id=get_para_id(user_input, response, paragraphs)
+    # print("PARAGRAPH ID", para_id)
     
-    # Update history with the new message and response
+    return response.text, history, para_id
+
+
+def chat_with_gemini_html(user_input, history, context):
+    
+    if not history:
+        default_prompt = (
+            "Given my research paper, you are a chatbot and I want you "
+            "to answer my questions in the context of my paper. This is my paper: "
+            + context
+        )
+        history = []
+        # Initialize the chat with a system message
+        history.append({"role": "user", "parts": [default_prompt]})
+        # Get initial response from model
+        response = model.generate_content(history)
+        history.append({"role": "model", "parts": [response.text]})
+        
+    prompt_prefix = "IN A MAXIMUM OF A FEW SENTENCES GIVE ME A RESPONSE TO: "
+    message = {"role": "user", "parts": [prompt_prefix + user_input]}
+    
+    chat = model.start_chat(history=history)
+    response = chat.send_message(message["parts"][0])
+
     history.append(message)
     history.append({"role": "model", "parts": [response.text]})
 

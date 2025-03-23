@@ -46,14 +46,15 @@ def chatbot():
         if conversation_id not in conversations.keys():
             conversations[conversation_id] = []
         # print(conversations)
-        response, history = chat_with_gemini(user_input, conversations[conversation_id], paragraphs)
+        response, history, id = chat_with_gemini(user_input, conversations[conversation_id], paragraphs)
         print(history)
         conversations[conversation_id] = history
 
         return jsonify({
             "status": "success",
             "message": "Processed HTML page and paragraphs",
-            "output_dict": response
+            "output_dict": response,
+            "source_id": id
         })
     except Exception as e:
         print(e)
