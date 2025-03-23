@@ -9,18 +9,25 @@ type SummaryProps = {
 export default function Summary({ paragraphs }: SummaryProps) {
   const [shown, setShown] = useState<ProcessedParagraph[]>([]);
 
-
-  function highlightParagraph(id: string){
+  function highlightParagraph(id: string) {
     const paragraphEl = document.getElementById(id);
     if (paragraphEl) {
-      paragraphEl.style.backgroundColor = "yellow";
+      paragraphEl.style.transition = "all 0.2s ease-in-out";
+      paragraphEl.style.color = "#e67e22";
+      paragraphEl.style.fontWeight = "bold";
+      paragraphEl.style.transform = "scale(1.03)";
+      paragraphEl.style.textShadow = "0 1px 2px rgba(0, 0, 0, 0.3)";
     }
   }
 
   function removeHighlight(id: string) {
     const paragraphEl = document.getElementById(id);
     if (paragraphEl) {
-      paragraphEl.style.backgroundColor = "";
+      paragraphEl.style.transition = "";
+      paragraphEl.style.color = "";
+      paragraphEl.style.fontWeight = "";
+      paragraphEl.style.transform = "";
+      paragraphEl.style.textShadow = "";
     }
   }
 
@@ -32,7 +39,7 @@ export default function Summary({ paragraphs }: SummaryProps) {
       ps.forEach((p) => {
         const rect = p.getBoundingClientRect();
         if (rect.top < window.innerHeight && rect.bottom > 0) {
-          const associated = paragraphs.find((pa: any) => pa.id === p.id);
+          const associated = paragraphs.find((pa) => pa.id === p.id);
           if (associated) {
             visible.push(associated);
           }
