@@ -1,9 +1,8 @@
-import { SummarizedTag, Definition, ParsedTag, ServerResponse } from "./types";
+import { ParsedTag, ProcessedTag, ServerResponse } from "./types";
 
 export default class Parser {
-  private readonly serverUrl = "http://127.0.0.1:5000";
-  private summarizedTags: SummarizedTag[] = [];
-  private definitions: Definition[] = [];
+  private readonly serverUrl = "http://localhost:5001/process_html";
+  private processedTags: ProcessedTag[] = [];
   private sidebar: HTMLElement | null = null;
 
   constructor() {
@@ -46,11 +45,13 @@ export default class Parser {
   private async summarizeText(parsedTags: ParsedTag[]) {
     const res = await fetch(this.serverUrl, {
       method: "POST",
-      body: JSON.stringify(parsedTags),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ paragraphs: parsedTags }),
     });
     const data = (await res.json()) as ServerResponse;
-    this.summarizedTags = data.summary;
-    this.definitions = data.definitions;
+    this.processedTags = data;
   }
 
   private onScroll() {}
@@ -67,7 +68,6 @@ export default class Parser {
   }
 
   logParsedTags() {
-    console.log(this.summarizedTags);
-    console.log(this.definitions);
+    console.log(this.processedTags);
   }
 }

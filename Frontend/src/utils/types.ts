@@ -3,17 +3,13 @@ export type ParsedTag = {
   text: string;
 };
 
-export type SummarizedTag = {
+export type ProcessedTag = {
   id: string;
   summary: string;
+  definitions: {
+    word: string;
+    def: string;
+  }[];
 };
 
-export type Definition = {
-  word: string;
-  def: string;
-};
-
-export type ServerResponse = {
-  summary: SummarizedTag[];
-  definitions: Definition[];
-};
+export type ServerResponse = ProcessedTag[];

@@ -54,6 +54,7 @@ class Manager:
             f"PARAGRAPH: {paragraph}"
         )
         output = self.get_output(prompt)
+        print(output)
         words = self.remove_formatting(output)
         try:
             words_json = json.loads(words)
