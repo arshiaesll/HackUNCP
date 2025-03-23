@@ -11,13 +11,16 @@ type PageBodyProps = {
 
 function PageBody({ innerHtml }: PageBodyProps) {
   return (
-    <>
+    <div style={{ display: "flex" }}>
       <div
+        style={{
+          width: "75%",
+          marginRight: "25%",
+        }}
         dangerouslySetInnerHTML={{ __html: innerHtml }}
-        style={{ scale: "0.75", translate: "-12.5% -12.5%" }}
       />
       <Sidebar />
-    </>
+    </div>
   );
 }
 
@@ -27,7 +30,7 @@ function Sidebar() {
 
   async function fetchParagraphs() {
     try {
-      console.log(pTags);
+      console.log("Parsed pTags:", pTags);
       const res = await fetch("http://127.0.0.1:5002", {
         method: "POST",
         headers: {
@@ -37,9 +40,9 @@ function Sidebar() {
       });
       const data = await res.json();
       setProcessed(data.output_dict);
-      console.log(data);
+      console.log("Response from server:", data);
     } catch (error) {
-      console.error(error);
+      console.error("Error fetching summaries:", error);
     }
   }
 
@@ -48,26 +51,29 @@ function Sidebar() {
   }, []);
 
   useEffect(() => {
-    function checkParagraphs() {
-      let inViewport: ProcessedParagraph[] = [];
+    function checkParagraphsInView() {
       const paragraphs = document.querySelectorAll(tagType);
-      for (const p of paragraphs) {
-        // if p is in viewport
-        if (
-          p.getBoundingClientRect().top < window.innerHeight &&
-          p.getBoundingClientRect().bottom > 0
-        ) {
+      const visible: ProcessedParagraph[] = [];
+
+      paragraphs.forEach((p) => {
+        const rect = p.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
           const associated = processed.find((pr) => pr.id === p.id);
           if (associated) {
-            inViewport.push(associated);
+            visible.push(associated);
           }
         }
-      }
-      setShown(inViewport);
+      });
+
+      setShown(visible);
     }
 
-    document.addEventListener("scroll", checkParagraphs);
-    return () => document.removeEventListener("scroll", checkParagraphs);
+    window.addEventListener("scroll", checkParagraphsInView);
+    checkParagraphsInView();
+
+    return () => {
+      window.removeEventListener("scroll", checkParagraphsInView);
+    };
   }, [processed]);
 
   return (
@@ -76,19 +82,28 @@ function Sidebar() {
         position: "fixed",
         top: 0,
         right: 0,
-        height: "100%",
         width: "25%",
+        height: "100%",
+        overflowY: "auto",
+        background: "white",
+        borderLeft: "1px solid #ccc",
+        padding: "1rem",
       }}
     >
+      <h3>Summaries</h3>
       {shown.map((p) => (
-        <p key={p.id}>{p.summary}</p>
+        <p key={p.id} style={{ marginBottom: "1rem" }}>
+          {p.summary}
+        </p>
       ))}
     </div>
   );
 }
 
+
 const body = document.querySelector("body")!;
 const innerHtml = body.innerHTML;
+
 body.innerHTML = "";
 
 const container = document.createElement("div");
