@@ -42,19 +42,33 @@ export default function ChatBot({ messages, onSend }: ChatBotProps) {
           width: "calc(25vw - 1em)",
           display: "flex",
           flexDirection: "column",
-          gap: "0.25em",
+          gap: "0.5em",
         }}
       >
         <textarea
           placeholder="Ask me questions about the text"
-          style={{ width: "100%", resize: "none", fontSize }}
+          style={{
+            width: "100%",
+            resize: "none",
+            fontSize,
+            padding: "0.25em",
+          }}
           value={input}
           onChange={(e) => setInput(e.target.value)}
         />
         <button
           disabled={isLoading}
           onClick={handleSend}
-          style={{ width: "100%" }}
+          style={{
+            width: "100%",
+            backgroundColor: "#333",
+            fontWeight: 600,
+            paddingBlock: "0.5em",
+            border: "none",
+            outline: "none",
+            borderRadius: "0.5em",
+            cursor: "pointer",
+          }}
         >
           {isLoading ? "Loading..." : "Send"}
         </button>

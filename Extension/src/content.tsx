@@ -90,20 +90,35 @@ function Sidebar() {
         height: "100vh",
         overflowY: "auto",
         borderLeft: "2px solid #888",
-        boxShadow: "0 0 5px #888",
         padding: "0.5em",
       }}
     >
       <div style={{ display: "flex", gap: "0.5em", marginBottom: "1em" }}>
         <button
           onClick={() => setMode("summary")}
-          style={{ flex: 1, paddingBlock: "1em" }}
+          style={{
+            flex: 1,
+            paddingBlock: "1em",
+            backgroundColor: mode === "summary" ? "#333" : "#444",
+            border: "none",
+            outline: "none",
+            borderRadius: "0.5em",
+            cursor: "pointer",
+          }}
         >
           Summarize
         </button>
         <button
           onClick={() => setMode("chat")}
-          style={{ flex: 1, paddingBlock: "1em" }}
+          style={{
+            flex: 1,
+            paddingBlock: "1em",
+            backgroundColor: mode === "chat" ? "#333" : "#444",
+            border: "none",
+            outline: "none",
+            borderRadius: "0.5em",
+            cursor: "pointer",
+          }}
         >
           Chat
         </button>
