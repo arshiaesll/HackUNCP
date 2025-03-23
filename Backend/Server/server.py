@@ -44,10 +44,10 @@ def chatbot():
             return jsonify({"error": "No data provided"}), 400
         html = data.get("html")
         print(html)
-        paragraphs = data.get("paragraphs")
+        # paragraphs = data.get("paragraphs")
 
-        if not paragraphs:
-            return jsonify({"error": "Paragraphs not provided"}), 400
+        # if not paragraphs:
+        #     return jsonify({"error": "Paragraphs not provided"}), 400
 
         if conversation_id not in conversations.keys():
             conversations[conversation_id] = []
