@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-import parseHtml from "./util/parser";
+import parseHtml, { tagType } from "./util/parser";
 import { ProcessedParagraph } from "./util/types";
 
 const pTags = parseHtml();
@@ -14,7 +14,7 @@ function PageBody({ innerHtml }: PageBodyProps) {
     <>
       <div
         dangerouslySetInnerHTML={{ __html: innerHtml }}
-        style={{ scale: "0.75", translate: "-12% -12%" }}
+        style={{ scale: "0.75", translate: "-12.5% -12.5%" }}
       />
       <Sidebar />
     </>
@@ -27,6 +27,7 @@ function Sidebar() {
 
   async function fetchParagraphs() {
     try {
+      console.log(pTags);
       const res = await fetch("http://127.0.0.1:5002", {
         method: "POST",
         headers: {
@@ -47,13 +48,15 @@ function Sidebar() {
   }, []);
 
   useEffect(() => {
-    console.log(processed);
     function checkParagraphs() {
       let inViewport: ProcessedParagraph[] = [];
-      const paragraphs = document.querySelectorAll("p");
+      const paragraphs = document.querySelectorAll(tagType);
       for (const p of paragraphs) {
         // if p is in viewport
-        if (p.getBoundingClientRect().top < window.innerHeight) {
+        if (
+          p.getBoundingClientRect().top < window.innerHeight &&
+          p.getBoundingClientRect().bottom > 0
+        ) {
           const associated = processed.find((pr) => pr.id === p.id);
           if (associated) {
             inViewport.push(associated);
@@ -77,7 +80,6 @@ function Sidebar() {
         width: "25%",
       }}
     >
-      <p>Sidebar</p>
       {shown.map((p) => (
         <p key={p.id}>{p.summary}</p>
       ))}
