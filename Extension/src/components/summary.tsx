@@ -9,6 +9,21 @@ type SummaryProps = {
 export default function Summary({ paragraphs }: SummaryProps) {
   const [shown, setShown] = useState<ProcessedParagraph[]>([]);
 
+
+  function highlightParagraph(id: string){
+    const paragraphEl = document.getElementById(id);
+    if (paragraphEl) {
+      paragraphEl.style.backgroundColor = "yellow";
+    }
+  }
+
+  function removeHighlight(id: string) {
+    const paragraphEl = document.getElementById(id);
+    if (paragraphEl) {
+      paragraphEl.style.backgroundColor = "";
+    }
+  }
+
   useEffect(() => {
     function checkParagraphsInView() {
       const ps = document.querySelectorAll(tagType);
@@ -38,7 +53,12 @@ export default function Summary({ paragraphs }: SummaryProps) {
   return (
     <div>
       {shown.map((p) => (
-        <p key={p.id} style={{ marginBottom: "1rem" }}>
+        <p
+          key={p.id}
+          style={{ marginBottom: "1rem", cursor: "pointer" }}
+          onMouseEnter={() => highlightParagraph(p.id)}
+          onMouseLeave={() => removeHighlight(p.id)}
+        >
           {p.summary}
         </p>
       ))}
