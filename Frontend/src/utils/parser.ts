@@ -1,31 +1,10 @@
-type ParsedTag = {
-  id: string;
-  text: string;
-};
-
-type SummarizedTag = {
-  id: string;
-  summary: string;
-};
-
-type Definition = {
-  word: string;
-  def: string;
-};
-
-type ServerResponse = {
-  summary: SummarizedTag[];
-  definitions: Definition[];
-};
+import { ParsedTag, ProcessedTag, ServerResponse } from "./types";
 
 export default class Parser {
-  private readonly serverUrl = "http://127.0.0.1:5000";
-  private summarizedTags: SummarizedTag[] = [];
-  private definitions: Definition[] = [];
-
-  private paragraphs: HTMLElement[] = [];
-
+  private readonly serverUrl = "http://localhost:5001/process_html";
+  private processedTags: ProcessedTag[] = [];
   private sidebar: HTMLElement | null = null;
+  private paragraphs: HTMLElement [] = []
 
   constructor() {
     this.parseHtml();
@@ -56,25 +35,25 @@ export default class Parser {
     newBody.style.gridTemplateColumns = "3fr 1fr";
     newBody.appendChild(pageContent);
     newBody.appendChild(sidebar);
-    // put document.body children into pageContent
     while (document.body.firstChild) {
       pageContent.appendChild(document.body.firstChild);
     }
     const html = document.querySelector("html")!;
+    const body = document.querySelector("body")!;
+    html.removeChild(body);
     html.appendChild(newBody);
-    // html.replaceChild(newBody, document.body);
   }
 
   private async summarizeText(parsedTags: ParsedTag[]) {
     const res = await fetch(this.serverUrl, {
       method: "POST",
-      body: JSON.stringify(parsedTags),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ paragraphs: parsedTags }),
     });
     const data = (await res.json()) as ServerResponse;
-    this.summarizedTags = data.summary;
-    this.definitions = data.definitions;
-
-    this.updateSidebar();
+    this.processedTags = data;
   }
 
   private onScroll = () => {
@@ -94,7 +73,7 @@ export default class Parser {
       }
 
       // find the matching summary text by ID?
-      const summaryObj = this.summarizedTags.find((s) => s.id === p.id);
+      const summaryObj = this.processedTags.find((s) => s.id === p.id);
       if (!summaryObj) return;
 
       // get the paragraph’s offset from the top
@@ -129,7 +108,6 @@ export default class Parser {
   }
 
   logParsedTags() {
-    console.log(this.summarizedTags);
-    console.log(this.definitions);
+    console.log(this.processedTags);
   }
 }
