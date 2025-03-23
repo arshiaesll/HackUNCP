@@ -84,7 +84,7 @@ function Sidebar() {
         top: 0,
         right: 0,
         width: "25%",
-        height: "100%",
+        height: "100vh",
         overflowY: "auto",
         borderLeft: "1px solid #ccc",
         padding: "1rem",
@@ -94,7 +94,6 @@ function Sidebar() {
         <button onClick={() => setMode("summary")}>Summarize</button>
         <button onClick={() => setMode("chat")}>Chat</button>
       </div>
-
       {mode === "summary" && <Summary paragraphs={processed} />}
       {mode === "chat" && <ChatBot messages={messages} onSend={fetchChat} />}
     </div>

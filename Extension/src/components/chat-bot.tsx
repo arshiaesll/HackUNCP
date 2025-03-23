@@ -18,11 +18,27 @@ export default function ChatBot({ messages, onSend }: ChatBotProps) {
   }
 
   return (
-    <div>
+    <div
+      style={{
+        position: "relative",
+        height: "100%",
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       {messages.map((m) => (
         <p key={m.text}>{m.text}</p>
       ))}
-      <div>
+      <div
+        style={{
+          position: "fixed",
+          bottom: 0,
+          left: "50%",
+          translate: "-50% 0",
+          width: "100%",
+        }}
+      >
         <input
           type="text"
           value={input}
