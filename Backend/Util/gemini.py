@@ -30,7 +30,6 @@ class Manager:
         )
         output=self.get_output(prompt)
         words=self.remove_formatting(output)
-        print('WORDS',words)
         try:
             words_json=json.loads(words)
         except Exception as e:
@@ -50,12 +49,10 @@ class Manager:
         )
         output=self.get_output(prompt)
         words=self.remove_formatting(output)
-        print('SUMMARIES',words)
         try:
             words_json=json.loads(words)
         except Exception as e:
             return e
-        # print(words_json)
         return words_json
     
 
@@ -68,8 +65,8 @@ class Manager:
         definition_dict = {item['id']: item for item in definitions}
         
         merged_data = []
-        for id_key in summary_dict.keys() & definition_dict.keys():  # Intersection of keys
-            merged_item = {**summary_dict[id_key], **definition_dict[id_key]}  # Merge dictionaries
+        for id_key in summary_dict.keys() & definition_dict.keys():
+            merged_item = {**summary_dict[id_key], **definition_dict[id_key]}
             merged_data.append(merged_item)
             
         return merged_data
