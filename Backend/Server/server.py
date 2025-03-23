@@ -1,3 +1,4 @@
+from Util.gemini import Manager
 from flask import Flask
 from flask_cors import CORS
 import os
@@ -9,7 +10,6 @@ parent_dir = os.path.dirname(current_dir)
 sys.path.append(parent_dir)
 sys.path.append(os.path.join(parent_dir, "Util"))
 
-from Util.gemini import Manager
 
 app = Flask(__name__)
 CORS(app)
@@ -52,7 +52,7 @@ def process_html():
                 "summary": summary,
                 "technical_definitions": definitions
             })
-            
+
         print(paragraph_data)
 
         # Process the HTML and paragraphs here

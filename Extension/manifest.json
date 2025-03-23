@@ -1,13 +1,10 @@
 {
   "manifest_version": 3,
-  "name": "My TypeScript Extension",
+  "name": "React Content Script Extension",
   "version": "1.0",
-  "description": "A Chrome extension built with TypeScript",
-  "permissions": ["activeTab", "storage"],
+  "description": "An extension that runs React on web pages",
+  "permissions": ["activeTab", "scripting"],
   "host_permissions": ["<all_urls>"],
-  "action": {
-    "default_popup": "index.html"
-  },
   "background": {
     "service_worker": "background.js"
   },
@@ -16,5 +13,8 @@
       "matches": ["<all_urls>"],
       "js": ["content.js"]
     }
-  ]
+  ],
+  "action": {
+    "default_popup": "index.html"
+  }
 }
