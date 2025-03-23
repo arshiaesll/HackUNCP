@@ -11,7 +11,7 @@ sys.path.append(os.path.join(parent_dir, "Util"))
 
 
 from Util.Test import test
-
+from Util.gemini import generate_paragraph_summary
 
 app = Flask(__name__)
 CORS(app)
@@ -43,7 +43,8 @@ def process_html():
             return jsonify({"error": "Paragraphs not provided"}), 400
 
         for paragraph in paragraphs:
-            print(paragraph)
+            summary = generate_paragraph_summary(paragraph)
+            print(summary)
         # Process the HTML and paragraphs here
         # This is where you'd add your business logic
         
