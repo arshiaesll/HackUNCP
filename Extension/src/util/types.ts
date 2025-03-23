@@ -6,8 +6,15 @@ export type RawParagraph = {
 export type ProcessedParagraph = {
   id: string;
   summary: string;
-  definitions: {
+  definitions?: {
     word: string;
     def: string;
   }[];
 };
+
+export type Message = {
+  text: string;
+  role: "user" | "ai";
+};
+
+export const fontSize = "16px";
