@@ -53,7 +53,8 @@ def chatbot():
         return jsonify({
             "status": "success",
             "message": "Processed HTML page and paragraphs",
-            "output_dict": response
+            "output_dict": response,
+            "source_id": id
         })
     except Exception as e:
         print(e)
