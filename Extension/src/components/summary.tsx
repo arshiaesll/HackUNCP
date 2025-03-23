@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ProcessedParagraph } from "../util/types";
+import { fontSize, ProcessedParagraph } from "../util/types";
 import { tagType } from "../util/parser";
 
 type SummaryProps = {
@@ -62,7 +62,7 @@ export default function Summary({ paragraphs }: SummaryProps) {
       {shown.map((p) => (
         <p
           key={p.id}
-          style={{ marginBottom: "1rem", cursor: "pointer" }}
+          style={{ marginBottom: "1rem", cursor: "pointer", fontSize }}
           onMouseEnter={() => highlightParagraph(p.id)}
           onMouseLeave={() => removeHighlight(p.id)}
         >

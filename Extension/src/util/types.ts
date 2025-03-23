@@ -16,3 +16,5 @@ export type Message = {
   text: string;
   role: "user" | "ai";
 };
+
+export const fontSize = "16px";

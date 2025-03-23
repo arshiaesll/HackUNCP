@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-import parseHtml, { tagType } from "./util/parser";
+import parseHtml from "./util/parser";
 import { Message, ProcessedParagraph } from "./util/types";
 import Summary from "./components/summary";
 import ChatBot from "./components/chat-bot";
@@ -56,6 +56,7 @@ function Sidebar() {
 
   async function fetchChat(message: string) {
     try {
+      // const data = "response";
       const res = await fetch(`${serverUrl}/chat`, {
         method: "POST",
         headers: {
@@ -86,13 +87,23 @@ function Sidebar() {
         width: "25%",
         height: "100vh",
         overflowY: "auto",
-        borderLeft: "1px solid #ccc",
-        padding: "1rem",
+        borderLeft: "2px solid #aaa",
+        padding: "0.5em",
       }}
     >
-      <div>
-        <button onClick={() => setMode("summary")}>Summarize</button>
-        <button onClick={() => setMode("chat")}>Chat</button>
+      <div style={{ display: "flex", gap: "0.5em", marginBottom: "1em" }}>
+        <button
+          onClick={() => setMode("summary")}
+          style={{ flex: 1, paddingBlock: "1em" }}
+        >
+          Summarize
+        </button>
+        <button
+          onClick={() => setMode("chat")}
+          style={{ flex: 1, paddingBlock: "1em" }}
+        >
+          Chat
+        </button>
       </div>
       {mode === "summary" && <Summary paragraphs={processed} />}
       {mode === "chat" && <ChatBot messages={messages} onSend={fetchChat} />}
