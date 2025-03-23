@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "My TypeScript Extension",
+  "version": "1.0",
+  "description": "A Chrome extension built with TypeScript",
+  "permissions": ["activeTab", "storage"],
+  "host_permissions": ["<all_urls>"],
+  "action": {
+    "default_popup": "index.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ]
+}
