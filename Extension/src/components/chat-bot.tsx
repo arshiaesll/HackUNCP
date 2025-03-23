@@ -26,6 +26,7 @@ export default function ChatBot({ messages, onSend }: ChatBotProps) {
         display: "flex",
         flexDirection: "column",
         paddingBottom: "6em",
+        gap: "0.5em",
       }}
     >
       {messages.map((m) => (
@@ -45,6 +46,7 @@ export default function ChatBot({ messages, onSend }: ChatBotProps) {
         }}
       >
         <textarea
+          placeholder="Ask me questions about the text"
           style={{ width: "100%", resize: "none", fontSize }}
           value={input}
           onChange={(e) => setInput(e.target.value)}
@@ -64,15 +66,21 @@ export default function ChatBot({ messages, onSend }: ChatBotProps) {
 const userStyles: CSSProperties = {
   marginLeft: "auto",
   textAlign: "right",
-  width: "70%",
+  maxWidth: "70%",
   fontSize,
   wordBreak: "break-all",
+  backgroundColor: "#444",
+  borderRadius: "0.5em",
+  padding: "0.5em",
 };
 
 const aiStyles: CSSProperties = {
   marginRight: "auto",
   textAlign: "left",
-  width: "70%",
+  maxWidth: "70%",
   fontSize,
   wordBreak: "break-all",
+  backgroundColor: "#656565",
+  borderRadius: "0.5em",
+  padding: "0.5em",
 };

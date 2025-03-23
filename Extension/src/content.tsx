@@ -89,7 +89,8 @@ function Sidebar() {
         width: "25%",
         height: "100vh",
         overflowY: "auto",
-        borderLeft: "2px solid #aaa",
+        borderLeft: "2px solid #888",
+        boxShadow: "0 0 5px #888",
         padding: "0.5em",
       }}
     >
