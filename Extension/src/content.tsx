@@ -87,6 +87,31 @@ function Sidebar() {
   );
 }
 
+type Message = {
+  text: string;
+  role: "user" | "ai";
+};
+
+type ChatBotProps = {
+  messages: Message[];
+};
+
+function ChatBot({ messages }: ChatBotProps) {
+  const [isLoading, setIsLoading] = useState(false);
+
+  return (
+    <div>
+      {messages.map((m) => (
+        <p key={m.text}>{m.text}</p>
+      ))}
+      <div>
+        <input type="text" />
+        <button>Send</button>
+      </div>
+    </div>
+  );
+}
+
 const body = document.querySelector("body")!;
 const innerHtml = body.innerHTML;
 body.innerHTML = "";
