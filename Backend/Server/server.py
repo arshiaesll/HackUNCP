@@ -11,7 +11,7 @@ sys.path.append(parent_dir)
 sys.path.append(os.path.join(parent_dir, "Util"))
 
 
-from Util.gemini import Manager, chat_with_gemini
+from Util.gemini import Manager, chat_with_gemini, chat_with_gemini_html
 
 app = Flask(__name__)
 CORS(app)
@@ -25,6 +25,11 @@ conversations = {
 @cross_origin(origins="*")
 def home():
     return "Welcome to the backend server!"
+
+
+
+
+
 
 
 @app.route('/chat', methods=["POST"])
@@ -46,8 +51,18 @@ def chatbot():
         if conversation_id not in conversations.keys():
             conversations[conversation_id] = []
         # print(conversations)
-        response, history, id = chat_with_gemini(user_input, conversations[conversation_id], paragraphs)
-        print(history)
+        try:
+            response, history, id = chat_with_gemini(user_input, conversations[conversation_id], paragraphs)
+        except:
+            html = data.get("html")
+            response, history = chat_with_gemini_html(user_input, conversations[conversation_id], html)
+            return jsonify({
+                "status": "success with html",
+                "output_dict": response
+            })
+
+        
+        # print(history)
         conversations[conversation_id] = history
 
         return jsonify({
