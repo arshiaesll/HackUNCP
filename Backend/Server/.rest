@@ -150,9 +150,25 @@ Content-Type: application/json
     "user_input": "What is the capital of France?",
     "conversation_id": "123",
     "paragraphs": [
-        {"id": "ancient_mesopotamia", "text": "Mesopotamia, often called the cradle of civilization, saw the development of the first writing system, agriculture, and urban centers around 4000 BCE."},
-        {"id": "egyptian_empire", "text": "Ancient Egypt's civilization flourished along the Nile River, developing sophisticated architecture, hieroglyphic writing, and complex religious beliefs spanning over 3000 years."},
-        {"id": "indus_valley", "text": "The Indus Valley Civilization, with its advanced urban planning and sophisticated drainage systems, thrived in what is now Pakistan and parts of India."}
+        {"id": "p1", "text": "The capital of France is Paris."},
+        {"id": "p2", "text": "Paris is known for its Eiffel Tower, Louvre Museum, and Notre-Dame Cathedral."},
+        {"id": "p3", "text": "Paris is also famous for its fashion, gastronomy, and art scene."}
     ]
 }
+
+
+### Send user input to chatbot endpoint - World History Test
+POST http://localhost:5002/chat
+Content-Type: application/json
+
+{
+    "user_input": "What was my questions about?",
+    "conversation_id": "123",
+    "paragraphs": [
+        {"id": "p1", "text": "The capital of France is Paris."},
+        {"id": "p2", "text": "Paris is known for its Eiffel Tower, Louvre Museum, and Notre-Dame Cathedral."},
+        {"id": "p3", "text": "Paris is also famous for its fashion, gastronomy, and art scene."}
+    ]
+}
+
 
