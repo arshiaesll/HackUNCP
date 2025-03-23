@@ -20,6 +20,7 @@ function PageBody({ innerHtml }: PageBodyProps) {
 
 function Sidebar() {
   const [processed, setProcessed] = useState<ProcessedParagraph[]>([]);
+  const [shown, setShown] = useState<ProcessedParagraph[]>([]);
 
   async function fetchParagraphs() {
     try {
@@ -33,7 +34,7 @@ function Sidebar() {
         }),
       });
       const data = await res.json();
-      setProcessed(data.output_dict);
+      setProcessed(data.output_dict.map((p: any) => ({ ...p, show: false })));
       console.log(data);
     } catch (error) {
       console.error(error);
@@ -41,12 +42,19 @@ function Sidebar() {
   }
 
   function checkParagraphs() {
+    let inViewport: ProcessedParagraph[] = [];
     const paragraphs = document.querySelectorAll("p");
     for (const p of paragraphs) {
+      // if p is in viewport
       if (p.getBoundingClientRect().top < window.innerHeight) {
-        p.style.backgroundColor = "yellow";
+        const associated = processed.find((pr) => pr.id === p.id);
+        if (associated) {
+          inViewport.push({ ...associated, show: true });
+        }
       }
     }
+    console.log(inViewport);
+    setShown(inViewport);
   }
 
   useEffect(() => {
@@ -59,8 +67,10 @@ function Sidebar() {
   return (
     <div>
       <p>Sidebar</p>
-      {processed.map((p) => (
-        <p key={p.id}>{p.summary}</p>
+      {shown.map((p) => (
+        <p key={p.id} style={{ position: "fixed", top: 0 }}>
+          {p.summary}
+        </p>
       ))}
     </div>
   );

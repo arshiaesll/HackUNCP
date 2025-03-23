@@ -6,8 +6,9 @@ export type RawParagraph = {
 export type ProcessedParagraph = {
   id: string;
   summary: string;
-  definitions: {
+  definitions?: {
     word: string;
     def: string;
   }[];
+  show: boolean;
 };
