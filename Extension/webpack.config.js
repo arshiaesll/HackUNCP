@@ -26,7 +26,10 @@ export default {
   },
   plugins: [
     new CopyPlugin({
-      patterns: [{ from: "manifest.json", to: "." }],
+      patterns: [
+        { from: "manifest.json", to: "." },
+        { from: "icon.png", to: "." },
+      ],
     }),
     new HtmlWebpackPlugin({
       template: "src/popup.html",

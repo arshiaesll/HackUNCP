@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "React Content Script Extension",
+  "name": "Web Bestie",
+  "description": "An AI assistant for summarizing web pages and answering questions",
   "version": "1.0",
-  "description": "An extension that runs React on web pages",
   "permissions": ["activeTab", "scripting"],
   "host_permissions": ["<all_urls>"],
   "background": {
@@ -15,6 +15,7 @@
     }
   ],
   "action": {
-    "default_popup": "index.html"
+    "default_popup": "index.html",
+    "default_icon": "icon.png"
   }
 }
