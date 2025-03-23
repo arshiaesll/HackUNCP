@@ -1,5 +1,5 @@
 from flask import Flask
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 import os
 import sys
 
@@ -17,10 +17,12 @@ CORS(app)
 
 
 @app.route("/")
+@cross_origin(origins="*")
 def home():
     return "Welcome to the backend server!"
 
-@app.route("/process_html", methods=["POST"])
+@app.route("/", methods=["POST"])
+@cross_origin(origins="*")
 def process_html():
     from flask import request, jsonify
     
@@ -69,4 +71,4 @@ def process_html():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True, port=5002)
+    app.run(host="0.0.0.0", debug=True, port=5000)
