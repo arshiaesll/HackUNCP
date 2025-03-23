@@ -8,65 +8,81 @@ load_dotenv()
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 model = genai.GenerativeModel(model_name="gemini-2.0-flash")
 
-
 class Manager:
-
+    
     def __init__(self):
-        self.paper_summary = ''
-
-    def generate_pdf_summary(self, paper: str):
-
+        self.paper_summary=''
+    
+    # def generate_pdf_summary(self, paper: str):
+        
+    #     prompt = (
+    #         "Given my research paper summarize the paper:"
+    #         f"{paper}"
+    #     )
+        
+    #     self.paper_summary=self.get_output(prompt)
+    #     return self.paper_summary
+    
+    def generate_technical_words(self, paragraphs):
+        
         prompt = (
-            "Given my research paper summarize the paper:"
-            f"{paper}"
+            "I am going to provide you a research paper broken down my paragraphs. "
+            "Each paragraph is going to have an ID. I want you to find all uncommonly known "
+            "technical words and provide their definitions in their context in the paragraph. "
+            "Return the output in the following JSON format: [{id:123, definitions:{'word':'word here','definition':'definition here'} }]"
+            f"This is my research paper: {paragraphs}"
         )
-
-        self.paper_summary = self.get_output(prompt)
-        return self.paper_summary
-
-    def generate_paragraph_summary(self, paragraph: str):
-
-        summary = self.paper_summary
-
-        if summary:
-            prompt = (
-                "I am going to provide a paragrah and I want you to summarize it. "
-                "Only give me the output of the summary and nothing else. "
-                f"This is the context of the paragraph, CONTEXT: {summary}. "
-                f"This is the paragrah to summarize, PARAGRAPH: {paragraph}"
-            )
-
-        else:
-            prompt = (
-                "I am going to provide a paragrah and I want you to summarize it. "
-                "Only give me the output of the summary and nothing else. "
-                f"This is the paragrah to summarize, PARAGRAPH: {paragraph}"
-            )
-        return self.get_output(prompt)
-
-    def generate_technical_words(self, paragraph: str):
-
-        prompt = (
-            f"I am going to provide a paragrah from this paper: {self.paper_summary}"
-            "I want you to give me all of the uncommonly known technical words and their "
-            f"definitions in the context they are used in the paragraph. "
-            "Give me the output in JSON format like this: [{word:'text', definition:'text'}]. "
-            f"PARAGRAPH: {paragraph}"
-        )
-        output = self.get_output(prompt)
-        print(output)
-        words = self.remove_formatting(output)
+        output=self.get_output(prompt)
+        words=self.remove_formatting(output)
+        print(words)
         try:
-            words_json = json.loads(words)
+            words_json=json.loads(words)
+        except Exception as e:
+            print('Here!!!!!!!')
+            return e
+        
+        return words_json
+    
+    
+    def generate_paragraph_summary(self, paragraphs):
+        
+        prompt = (
+            "I am going to provide a research paper broken down my paragraphs. "
+            "Each paragraph is going to have an ID. I want you to summarize each paragraph "
+            "from my input. Return the output in the following JSON format: "
+            "[{id:123, summary:'summarized paragraph'}] "
+            f"This is my research paper: {paragraphs}"
+        )
+        output=self.get_output(prompt)
+        words=self.remove_formatting(output)
+        print(words)
+        try:
+            words_json=json.loads(words)
         except Exception as e:
             return e
-
+        # print(words_json)
         return words_json
+    
+
+    def generate(self, paragraphs):
+        
+        summaries=self.generate_paragraph_summary(paragraphs)
+        definitions=self.generate_technical_words(paragraphs)
+        
+        summary_dict = {item['id']: item for item in summaries}
+        definition_dict = {item['id']: item for item in definitions}
+        
+        merged_data = []
+        for id_key in summary_dict.keys() & definition_dict.keys():  # Intersection of keys
+            merged_item = {**summary_dict[id_key], **definition_dict[id_key]}  # Merge dictionaries
+            merged_data.append(merged_item)
+            
+        return merged_data
 
     def get_output(self, prompt: str):
         try:
             response = model.generate_content(prompt)
-            return response.text
+            return response.text.strip()
         except Exception as e:
             return e
 
@@ -78,10 +94,11 @@ class Manager:
             text = text[:-3]
         return text
 
-    def check_json(self, text):
-        for item in text:
-            if not (isinstance(item, dict) and set(item.keys()) == {'word', 'definition'}):
-                raise ValueError('Invalid JSON format')
+
+    # def check_json(self, text):
+    #     for item in text:
+    #         if not (isinstance(item, dict) and set(item.keys()) == {'word', 'definition'}):
+    #             raise ValueError('Invalid JSON format')
 
 
 if __name__ == "__main__":
@@ -105,9 +122,9 @@ if __name__ == "__main__":
         behaviour. To build a fuzzy system one requires some
         background expert knowledge.
     """
-    response = Manager()
-    doc_summary = response.generate_pdf_summary(text)
+    response=Manager()
+    # doc_summary=response.generate_pdf_summary(text)
     para_summary = response.generate_paragraph_summary(paragraph)
     print(response)
-    words = response.generate_technical_words(paragraph)
+    words=response.generate_technical_words(paragraph)
     print(words)
