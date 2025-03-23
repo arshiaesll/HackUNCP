@@ -106,7 +106,7 @@ if __name__ == "__main__":
     """
     response=Manager()
     doc_summary=response.generate_pdf_summary(text)
-    para_summary = response.generate_paragraph_summary(doc_summary, paragraph)
+    para_summary = response.generate_paragraph_summary(paragraph)
     print(response)
-    words=response.generate_technical_words(paragraph, doc_summary)
+    words=response.generate_technical_words(paragraph)
     print(words)
