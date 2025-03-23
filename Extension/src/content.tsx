@@ -128,7 +128,14 @@ function Sidebar({ scrollRef }: SidebarProps) {
         padding: "0.5em",
       }}
     >
-      <div style={{ display: "flex", gap: "0.5em", marginBottom: "1em" }}>
+      <div
+        style={{
+          display: "flex",
+          gap: "0.5em",
+          marginBottom: "1em",
+          height: "4em",
+        }}
+      >
         <button
           onClick={() => setMode("chat")}
           style={{

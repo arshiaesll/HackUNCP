@@ -34,6 +34,7 @@ export default function ChatBot({ messages, onSend }: ChatBotProps) {
         paddingBottom: "10em",
         gap: "0.5em",
         overflowY: "auto",
+        maxHeight: "75vh",
       }}
     >
       {messages.map((m) => (
