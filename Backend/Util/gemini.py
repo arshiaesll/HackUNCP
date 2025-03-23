@@ -24,7 +24,7 @@ class Manager:
             "I am going to provide you a research paper broken down my paragraphs. "
             "Each paragraph is going to have an ID. I want you to find all uncommonly known "
             "technical words and provide their definitions in their context in the paragraph. "
-            "Return the output in the following JSON format: [{id:123, definitions: {'term':'text','definition':'text'} }]"
+            "Return the output in the following JSON format: [ { id: <id>, definitions: [{ word: <word>, def: <def> }] } ] "
             "If there are 0 words in the given paragraph return that id with an empty list of definitions. "
             f"This is my research paper: {paragraphs}"
         )
