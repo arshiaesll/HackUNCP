@@ -19,12 +19,14 @@ type ServerResponse = {
 };
 
 export default class Parser {
-  private serverUrl = "http://127.0.0.1:5000";
+  private readonly serverUrl = "http://127.0.0.1:5000";
   private summarizedTags: SummarizedTag[] = [];
   private definitions: Definition[] = [];
+  private sidebar: HTMLElement | null = null;
 
   constructor() {
     this.parseHtml();
+    this.createSidebar();
     document.addEventListener("scroll", this.onScroll);
   }
 
@@ -39,6 +41,24 @@ export default class Parser {
       });
     });
     this.summarizeText(parsedTags);
+  }
+
+  private createSidebar() {
+    const sidebar = document.createElement("div");
+    this.sidebar = sidebar;
+    const pageContent = document.createElement("div");
+    const newBody = document.createElement("body");
+    newBody.style.display = "grid";
+    newBody.style.gridTemplateColumns = "3fr 1fr";
+    newBody.appendChild(pageContent);
+    newBody.appendChild(sidebar);
+    // put document.body children into pageContent
+    while (document.body.firstChild) {
+      pageContent.appendChild(document.body.firstChild);
+    }
+    const html = document.querySelector("html")!;
+    html.appendChild(newBody);
+    // html.replaceChild(newBody, document.body);
   }
 
   private async summarizeText(parsedTags: ParsedTag[]) {
