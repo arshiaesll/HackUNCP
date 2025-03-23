@@ -11,10 +11,13 @@ type PageBodyProps = {
 
 function PageBody({ innerHtml }: PageBodyProps) {
   return (
-    <body style={{ display: "grid", gridTemplateColumns: "3fr 1fr" }}>
-      <div dangerouslySetInnerHTML={{ __html: innerHtml }} />
+    <>
+      <div
+        dangerouslySetInnerHTML={{ __html: innerHtml }}
+        style={{ scale: "0.75", translate: "-12% -12%" }}
+      />
       <Sidebar />
-    </body>
+    </>
   );
 }
 
@@ -29,12 +32,11 @@ function Sidebar() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          paragraphs: pTags,
-        }),
+        body: JSON.stringify({ paragraphs: pTags }),
       });
       const data = await res.json();
       setProcessed(data.output_dict);
+      console.log(data);
     } catch (error) {
       console.error(error);
     }
@@ -45,6 +47,7 @@ function Sidebar() {
   }, []);
 
   useEffect(() => {
+    console.log(processed);
     function checkParagraphs() {
       let inViewport: ProcessedParagraph[] = [];
       const paragraphs = document.querySelectorAll("p");
@@ -52,8 +55,6 @@ function Sidebar() {
         // if p is in viewport
         if (p.getBoundingClientRect().top < window.innerHeight) {
           const associated = processed.find((pr) => pr.id === p.id);
-          console.log(processed);
-          console.log(associated, p.id);
           if (associated) {
             inViewport.push(associated);
           }
@@ -67,7 +68,15 @@ function Sidebar() {
   }, [processed]);
 
   return (
-    <div>
+    <div
+      style={{
+        position: "fixed",
+        top: 0,
+        right: 0,
+        height: "100%",
+        width: "25%",
+      }}
+    >
       <p>Sidebar</p>
       {shown.map((p) => (
         <p key={p.id}>{p.summary}</p>
@@ -76,12 +85,12 @@ function Sidebar() {
   );
 }
 
-// Create container in the page
-
-const html = document.querySelector("html")!;
 const body = document.querySelector("body")!;
-const innerHtml = body.outerHTML;
-html.innerHTML = "";
+const innerHtml = body.innerHTML;
+body.innerHTML = "";
 
-const root = createRoot(html);
+const container = document.createElement("div");
+body.appendChild(container);
+
+const root = createRoot(container);
 root.render(<PageBody innerHtml={innerHtml} />);
