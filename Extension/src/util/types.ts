@@ -11,3 +11,8 @@ export type ProcessedParagraph = {
     def: string;
   }[];
 };
+
+export type Message = {
+  text: string;
+  role: "user" | "ai";
+};
