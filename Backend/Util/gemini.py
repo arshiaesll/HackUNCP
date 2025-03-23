@@ -83,19 +83,6 @@ class Manager:
             text = text[:-3]
         return text
     
-# class ChatbotManager:
-    
-#     def __init__(self, paragraphs, id):
-#         self.context = ""
-#         for paragraph in paragraphs:
-#             self.context+= paragraph["text"]
-
-#         default_prompt=(
-#             "Given my research paper, you are a chatbot and I want you "
-#             "to answer my questions in the context of my paper. This is my paper: "
-#             +self.context
-#         )
-#         self.history = [default_prompt]
 
 def get_para_id(user_input, response, paragraphs):
     prompt = (
@@ -138,7 +125,6 @@ def chat_with_gemini(user_input, history, paragraphs):
     history.append({"role": "model", "parts": [response.text]})
 
     para_id=get_para_id(user_input, response, paragraphs)
-    # print("PARAGRAPH ID", para_id)
     
     return response.text, history, para_id
 
