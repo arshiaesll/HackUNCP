@@ -4,6 +4,7 @@ export default class Parser {
   private readonly serverUrl = "http://localhost:5001/process_html";
   private processedTags: ProcessedTag[] = [];
   private sidebar: HTMLElement | null = null;
+  private paragraphs: HTMLElement [] = []
 
   constructor() {
     this.parseHtml();
@@ -20,6 +21,7 @@ export default class Parser {
         id,
         text: p.textContent || "",
       });
+      this.paragraphs.push(p);
     });
     this.summarizeText(parsedTags);
   }
@@ -54,8 +56,46 @@ export default class Parser {
     this.processedTags = data;
   }
 
-  private onScroll() {}
+  private onScroll = () => {
+    this.updateSidebar();
+  };
 
+  private updateSidebar() {
+    if (!this.sidebar) return;
+
+    this.sidebar.innerHTML = "";
+
+    this.sidebar.style.position = "relative";
+
+    this.paragraphs.forEach((p) => {
+      if (!this.isElementVisible(p)) {
+        return; // skip paragraphs not in view
+      }
+
+      // find the matching summary text by ID?
+      const summaryObj = this.processedTags.find((s) => s.id === p.id);
+      if (!summaryObj) return;
+
+      // get the paragraph’s offset from the top
+      const rect = p.getBoundingClientRect();
+      const paragraphTop = rect.top;
+
+      //ceate element to hold summary
+      const summaryDiv = document.createElement("div");
+      summaryDiv.textContent = summaryObj.summary;
+      summaryDiv.style.position = "absolute";
+      summaryDiv.style.top = `${paragraphTop}px`;
+      summaryDiv.style.left = "0px";
+      summaryDiv.style.width = "95%"; // so it fits in the sidebar’s column
+
+      //styling for it
+      summaryDiv.style.padding = "0.5rem";
+      summaryDiv.style.marginBottom = "1rem";
+      summaryDiv.style.border = "1px solid #ccc";
+      // Append to the sidebar
+      this.sidebar!.appendChild(summaryDiv);
+    });
+  }
   private isElementVisible(element: HTMLElement) {
     const rect = element.getBoundingClientRect();
     return (
