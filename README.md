@@ -7,7 +7,7 @@ A browser extension project with a Flask backend that processes web content usin
 ```
 HackUNCP/
 ├── Backend/
-│   ├── Server/         # Flask server implementation
+│   ├── Server/        # Flask server implementation
 │   ├── Util/          # Utility functions including Gemini AI integration
 │   └── env.yml        # Conda environment configuration
 ├── Extension/
