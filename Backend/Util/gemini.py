@@ -13,59 +13,68 @@ class Manager:
     def __init__(self):
         self.paper_summary=''
     
-    def generate_pdf_summary(self, paper: str):
+    # def generate_pdf_summary(self, paper: str):
+        
+    #     prompt = (
+    #         "Given my research paper summarize the paper:"
+    #         f"{paper}"
+    #     )
+        
+    #     self.paper_summary=self.get_output(prompt)
+    #     return self.paper_summary
+    
+    def generate_technical_words(self, paragraphs):
         
         prompt = (
-            "Given my research paper summarize the paper:"
-            f"{paper}"
-        )
-        
-        self.paper_summary=self.get_output(prompt)
-        return self.paper_summary
-
-    def generate_paragraph_summary(self, paragraph: str):
-        
-        summary=self.paper_summary
-        
-        if summary:
-            prompt = (
-                "I am going to provide a paragrah and I want you to summarize it. "
-                "Only give me the output of the summary and nothing else. "
-                f"This is the context of the paragraph, CONTEXT: {summary}. "
-                f"This is the paragrah to summarize, PARAGRAPH: {paragraph}"
-            )
-        
-        else:
-            prompt = (
-                "I am going to provide a paragrah and I want you to summarize it. "
-                "Only give me the output of the summary and nothing else. "
-                f"This is the paragrah to summarize, PARAGRAPH: {paragraph}"
-            )
-        return self.get_output(prompt)
-
-
-    def generate_technical_words(self, paragraph: str):
-        
-        prompt = (
-            f"I am going to provide a paragrah from this paper: {self.paper_summary}"
-            "I want you to give me all of the uncommonly known technical words and their "
-            f"definitions in the context they are used in the paragraph. "
-            "Give me the output in JSON format like this: [{word:'text', definition:'text'}]. "
-            f"PARAGRAPH: {paragraph}"
+            "I am going to provide you a research paper broken down my paragraphs. "
+            "Each paragraph is going to have an ID. I want you to find all uncommonly known "
+            "technical words and provide their definitions in their context in the paragraph. "
+            "Return the output in the following JSON format: [{id:123, definitions:{'word':'word here','definition':'definition here'} }]"
+            f"This is my research paper: {paragraphs}"
         )
         output=self.get_output(prompt)
         words=self.remove_formatting(output)
+        print(words)
+        try:
+            words_json=json.loads(words)
+        except Exception as e:
+            print('Here!!!!!!!')
+            return e
+        
+        return words_json
+    
+    
+    def generate_paragraph_summary(self, paragraphs):
+        
+        prompt = (
+            "I am going to provide a research paper broken down my paragraphs. "
+            "Each paragraph is going to have an ID. I want you to summarize each paragraph "
+            "from my input. Return the output in the following JSON format: "
+            "[{id:123, summary:'summarized paragraph'}] "
+            f"This is my research paper: {paragraphs}"
+        )
+        output=self.get_output(prompt)
+        words=self.remove_formatting(output)
+        print(words)
         try:
             words_json=json.loads(words)
         except Exception as e:
             return e
-        
+        # print(words_json)
         return words_json
+    
+
+    def generate(self, paragraphs):
+        
+        summaries=self.generate_paragraph_summary(paragraphs)
+        definitions=self.generate_technical_words(paragraphs)
+        
+
 
     def get_output(self, prompt: str):
         try:
             response = model.generate_content(prompt)
-            return response.text
+            return response.text.strip()
         except Exception as e:
             return e
 
@@ -105,7 +114,7 @@ if __name__ == "__main__":
         background expert knowledge.
     """
     response=Manager()
-    doc_summary=response.generate_pdf_summary(text)
+    # doc_summary=response.generate_pdf_summary(text)
     para_summary = response.generate_paragraph_summary(paragraph)
     print(response)
     words=response.generate_technical_words(paragraph)

@@ -39,19 +39,19 @@ def process_html():
         
         # Create a list to store paragraph data
         paragraph_data = []
-        print(paragraphs)
+        # print(paragraphs)
         # for paragraph in paragraphs:
         summaries = manager.generate_paragraph_summary(paragraphs)
 
         definitions = manager.generate_technical_words(paragraphs)
         # Add each paragraph's data to the list
-        for summary in summaries:
-            id = summary["id"]
-            paragraph_data.append({
-                "id": id,
-                "summary": summary,
-                "technical_definitions": definitions[id]
-            })
+        # for summary in summaries:
+        #     id = summary["id"]
+        #     paragraph_data.append({
+        #         "id": id,
+        #         "summary": summary,
+        #         "technical_definitions": definitions[id]
+        #     })
         
         # Process the HTML and paragraphs here
         # This is where you'd add your business logic
@@ -59,12 +59,14 @@ def process_html():
         return jsonify({
             "status": "success",
             "message": "Processed HTML page and paragraphs",
-            "paragraphs": paragraph_data,
+            "paragraphs": summaries,
+            'WordsAndDefinition': definitions
         })
+        
         
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True, port=5001)
+    app.run(host="0.0.0.0", debug=True, port=5002)
