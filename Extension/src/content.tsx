@@ -34,43 +34,43 @@ function Sidebar() {
         }),
       });
       const data = await res.json();
-      setProcessed(data.output_dict.map((p: any) => ({ ...p, show: false })));
-      console.log(data);
+      setProcessed(data.output_dict);
     } catch (error) {
       console.error(error);
     }
   }
 
-  function checkParagraphs() {
-    let inViewport: ProcessedParagraph[] = [];
-    const paragraphs = document.querySelectorAll("p");
-    for (const p of paragraphs) {
-      // if p is in viewport
-      if (p.getBoundingClientRect().top < window.innerHeight) {
-        const associated = processed.find((pr) => pr.id === p.id);
-        if (associated) {
-          inViewport.push({ ...associated, show: true });
-        }
-      }
-    }
-    console.log(inViewport);
-    setShown(inViewport);
-  }
-
   useEffect(() => {
     fetchParagraphs();
+  }, []);
+
+  useEffect(() => {
+    function checkParagraphs() {
+      let inViewport: ProcessedParagraph[] = [];
+      const paragraphs = document.querySelectorAll("p");
+      for (const p of paragraphs) {
+        // if p is in viewport
+        if (p.getBoundingClientRect().top < window.innerHeight) {
+          const associated = processed.find((pr) => pr.id === p.id);
+          console.log(processed);
+          console.log(associated, p.id);
+          if (associated) {
+            inViewport.push(associated);
+          }
+        }
+      }
+      setShown(inViewport);
+    }
 
     document.addEventListener("scroll", checkParagraphs);
     return () => document.removeEventListener("scroll", checkParagraphs);
-  }, []);
+  }, [processed]);
 
   return (
     <div>
       <p>Sidebar</p>
       {shown.map((p) => (
-        <p key={p.id} style={{ position: "fixed", top: 0 }}>
-          {p.summary}
-        </p>
+        <p key={p.id}>{p.summary}</p>
       ))}
     </div>
   );

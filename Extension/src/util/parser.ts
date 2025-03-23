@@ -10,6 +10,5 @@ export default function parseHtml() {
       text: tags[i].textContent || "",
     });
   }
-  console.log(tags);
   return parsed;
 }

@@ -10,5 +10,4 @@ export type ProcessedParagraph = {
     word: string;
     def: string;
   }[];
-  show: boolean;
 };
