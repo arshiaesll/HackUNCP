@@ -44,10 +44,10 @@ class Manager:
         return self.get_output(prompt)
 
 
-    def generate_technical_words(self, summary: str, paragraph: str):
+    def generate_technical_words(self, paragraph: str):
         
         prompt = (
-            f"I am going to provide a paragrah from this paper: {summary}"
+            f"I am going to provide a paragrah from this paper: {self.paper_summary}"
             "I want you to give me all of the uncommonly known technical words and their "
             f"definitions in the context they are used in the paragraph. "
             "Give me the output in JSON format like this: [{word:'text', definition:'text'}]. "
