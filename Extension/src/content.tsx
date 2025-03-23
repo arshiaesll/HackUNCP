@@ -5,6 +5,8 @@ import { Message, ProcessedParagraph } from "./util/types";
 import Summary from "./components/summary";
 import ChatBot from "./components/chat-bot";
 
+const serverUrl = "http://127.0.0.1:5002";
+
 const pTags = parseHtml();
 
 type PageBodyProps = {
@@ -33,8 +35,7 @@ function Sidebar() {
 
   async function fetchParagraphs() {
     try {
-      console.log("Parsed pTags:", pTags);
-      const res = await fetch("http://127.0.0.1:5002", {
+      const res = await fetch(serverUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -52,6 +53,29 @@ function Sidebar() {
   useEffect(() => {
     fetchParagraphs();
   }, []);
+
+  async function fetchChat(message: string) {
+    try {
+      const res = await fetch(`${serverUrl}/chat`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message,
+          paragraphs: pTags.slice(0, 50).map((p) => p.text),
+        }),
+      });
+      const data = await res.json();
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { text: message, role: "user" },
+        { text: data, role: "ai" },
+      ]);
+    } catch (error) {
+      console.error("Error fetching summaries:", error);
+    }
+  }
 
   return (
     <div
@@ -71,7 +95,7 @@ function Sidebar() {
         <button onClick={() => setMode("chat")}>Chat</button>
       </div>
       {mode === "summary" && <Summary paragraphs={processed} />}
-      {mode === "chat" && <ChatBot messages={messages} />}
+      {mode === "chat" && <ChatBot messages={messages} onSend={fetchChat} />}
     </div>
   );
 }
