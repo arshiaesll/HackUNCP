@@ -9,3 +9,60 @@ Content-Type: application/json
         {"id": "p3", "text": "The human genome project completed in 2003 mapped approximately 20,500 genes in human DNA. This landmark scientific achievement has facilitated numerous breakthroughs in our understanding of genetic diseases and potential treatments. CRISPR gene editing technology builds upon this foundation, offering promising avenues for addressing previously untreatable conditions through precise genetic modifications."}
     ]
 }
+
+### Send HTML page and paragraphs to process_html endpoint - Academic Paper Test
+POST http://localhost:5002/process_html
+Content-Type: application/json
+
+{
+    "paragraphs": [
+        {"id": "p1", "text": "This article introduces Tensor Network-based iterative algorithms for the identification of high-order discrete-time nonlinear multiple-input multiple-output systems. The research focuses on MIMO Volterra system identification using advanced mathematical approaches."},
+        {"id": "p2", "text": "The study was published in Automatica (Volume 84) and presents significant advancements in system identification methodologies. The research was published online on July 12, 2017, demonstrating recent developments in the field of tensor networks."},
+        {"id": "p3", "text": "The methodology involves applying tensor network alternating linear schemes, which have shown promising results in identifying complex system behaviors. This approach represents a significant step forward in understanding and modeling nonlinear systems."}
+    ]
+}
+
+### Send HTML page and paragraphs to process_html endpoint - Comprehensive Academic Test
+POST http://localhost:5002/process_html
+Content-Type: application/json
+
+{
+    "paragraphs": [
+        {"id": "p1", "text": "This research paper presents groundbreaking work in Tensor Network algorithms, specifically focusing on the identification of high-order discrete-time nonlinear systems. The methodology introduces novel approaches to handling multiple-input multiple-output (MIMO) systems."},
+        {"id": "p2", "text": "The study, published in the prestigious journal Automatica (Volume 84, Pages 26-35), represents a significant advancement in system identification. Published online on July 12, 2017, this work has important implications for the field of tensor networks and system modeling."},
+        {"id": "p3", "text": "The proposed methodology employs tensor network alternating linear schemes, demonstrating superior performance in identifying complex system behaviors. This innovative approach provides a robust framework for analyzing nonlinear systems."},
+        {"id": "p4", "text": "System identification plays a crucial role in modern control theory and engineering applications. The ability to accurately model and identify complex systems has implications across various industries, from process control to robotics."},
+        {"id": "p5", "text": "The research builds upon existing tensor network theory while introducing novel algorithmic improvements. These improvements specifically address the challenges of high-dimensional system identification and computational efficiency."},
+        {"id": "p6", "text": "Experimental results demonstrate the effectiveness of the proposed approach across multiple test scenarios. The methodology shows particular promise in handling systems with high degrees of nonlinearity and multiple input-output relationships."},
+        {"id": "p7", "text": "The implications of this research extend beyond theoretical contributions, offering practical applications in fields such as signal processing, pattern recognition, and dynamic system modeling. Future work may explore extensions to continuous-time systems and real-time applications."}
+    ]
+}
+
+### Send HTML page and paragraphs to process_html endpoint - Psychology Research Test
+POST http://localhost:5002/process_html
+Content-Type: application/json
+
+{
+    "paragraphs": [
+        {"id": "p1", "text": "The field of psychology has evolved significantly since its inception in the late 19th century. From Wilhelm Wundt's first psychology laboratory in 1879 to modern neuroscience-based approaches, the discipline has transformed our understanding of human behavior and mental processes."},
+        {"id": "p2", "text": "Cognitive psychology examines mental processes including perception, memory, problem-solving, and decision-making. Recent advances in neuroimaging techniques have allowed researchers to observe brain activity during cognitive tasks, providing unprecedented insights into how we process information."},
+        {"id": "p3", "text": "The concept of neuroplasticity has revolutionized our understanding of brain development. Research shows that the brain continues to form new neural connections throughout life, challenging earlier beliefs that brain structure was fixed after early childhood."},
+        {"id": "p4", "text": "Behavioral psychology, pioneered by John B. Watson and B.F. Skinner, focuses on observable behaviors rather than internal mental states. Classical and operant conditioning remain fundamental principles in understanding learning and behavior modification."},
+        {"id": "p5", "text": "Social psychology investigates how individuals' thoughts, feelings, and behaviors are influenced by the presence of others. Studies on conformity, obedience, and group dynamics have revealed the powerful impact of social influence on human behavior."},
+        {"id": "p6", "text": "The development of positive psychology by Martin Seligman has shifted focus from treating mental illness to promoting well-being and human flourishing. This approach emphasizes strengths, virtues, and factors that contribute to a fulfilling life."},
+        {"id": "p7", "text": "Attachment theory, developed by John Bowlby and Mary Ainsworth, explains how early relationships with caregivers influence emotional and social development. These early attachment patterns often persist into adulthood, affecting relationships throughout life."},
+        {"id": "p8", "text": "The study of personality has identified various traits and dimensions that characterize individual differences. The Five-Factor Model (Big Five) - including openness, conscientiousness, extraversion, agreeableness, and neuroticism - provides a framework for understanding personality."},
+        {"id": "p9", "text": "Developmental psychology examines how humans grow, change, and develop throughout their lifespan. Piaget's theory of cognitive development and Erikson's stages of psychosocial development remain influential in understanding human development."},
+        {"id": "p10", "text": "The field of abnormal psychology studies unusual patterns of behavior, emotion, and thought that may be signs of mental disorders. Modern approaches emphasize both biological and environmental factors in understanding and treating psychological disorders."},
+        {"id": "p11", "text": "Recent advances in neuroscience have revealed the importance of emotional intelligence in decision-making and social interaction. The work of Antonio Damasio demonstrates how emotions play a crucial role in seemingly rational cognitive processes."},
+        {"id": "p12", "text": "The concept of consciousness remains one of psychology's most fascinating and complex topics. Research into sleep, dreams, and altered states of consciousness continues to provide insights into the nature of human awareness and experience."},
+        {"id": "p13", "text": "Memory research has identified different types of memory systems, including working memory, long-term memory, and procedural memory. Studies of memory formation and retrieval have important implications for education and treatment of memory disorders."},
+        {"id": "p14", "text": "Cross-cultural psychology examines how cultural factors influence human behavior and mental processes. Research shows that many psychological phenomena previously thought to be universal vary significantly across cultures."},
+        {"id": "p15", "text": "The study of motivation explores what drives human behavior. From Maslow's hierarchy of needs to modern theories of self-determination, psychologists continue to investigate what motivates people to act and make choices."},
+        {"id": "p16", "text": "Environmental psychology investigates the relationship between human behavior and the physical environment. Research in this field has important implications for urban planning, workplace design, and environmental conservation."},
+        {"id": "p17", "text": "The emergence of health psychology highlights the connection between mental and physical health. Research demonstrates how psychological factors influence immune function, disease progression, and recovery from illness."},
+        {"id": "p18", "text": "Cognitive neuroscience combines psychology and neuroscience to understand brain mechanisms underlying cognition. Advanced imaging techniques have revealed specific brain regions associated with various cognitive functions."},
+        {"id": "p19", "text": "The study of human development in late adulthood has gained importance as populations age worldwide. Research on cognitive aging, retirement adjustment, and maintaining well-being in older age has significant societal implications."},
+        {"id": "p20", "text": "Digital technology's impact on human psychology has become a crucial area of study. Research examines how social media, smartphones, and constant connectivity affect attention, relationships, and mental health in the modern world."}
+    ]
+}
