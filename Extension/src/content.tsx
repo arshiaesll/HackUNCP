@@ -39,7 +39,7 @@ type SidebarProps = {
 
 function Sidebar({ scrollRef }: SidebarProps) {
   const [convoId, _] = useState(crypto.randomUUID());
-  const [mode, setMode] = useState<"summary" | "chat">("summary");
+  const [mode, setMode] = useState<"summary" | "chat">("chat");
   const [processed, setProcessed] = useState<ProcessedParagraph[]>([]);
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -92,27 +92,27 @@ function Sidebar({ scrollRef }: SidebarProps) {
     }
   }
 
-  if (isLoading) {
-    return (
-      <div
-        style={{
-          backgroundColor: "#111",
-          position: "fixed",
-          top: 0,
-          right: 0,
-          width: "25%",
-          height: "100vh",
-          overflowY: "auto",
-          borderLeft: "2px solid #888",
-          padding: "0.5em",
-          display: "grid",
-          placeItems: "center",
-        }}
-      >
-        <p style={{ color: "#eee" }}>Loading...</p>
-      </div>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div
+  //       style={{
+  //         backgroundColor: "#111",
+  //         position: "fixed",
+  //         top: 0,
+  //         right: 0,
+  //         width: "25%",
+  //         height: "100vh",
+  //         overflowY: "auto",
+  //         borderLeft: "2px solid #888",
+  //         padding: "0.5em",
+  //         display: "grid",
+  //         placeItems: "center",
+  //       }}
+  //     >
+  //       <p style={{ color: "#eee" }}>Loading...</p>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div
@@ -130,22 +130,6 @@ function Sidebar({ scrollRef }: SidebarProps) {
     >
       <div style={{ display: "flex", gap: "0.5em", marginBottom: "1em" }}>
         <button
-          onClick={() => setMode("summary")}
-          style={{
-            flex: 1,
-            paddingBlock: "1em",
-            backgroundColor: mode === "summary" ? "#222" : "#333",
-            border: "none",
-            outline: "none",
-            borderRadius: "0.5em",
-            cursor: "pointer",
-            fontWeight: 600,
-            color: "#eee",
-          }}
-        >
-          Summarize
-        </button>
-        <button
           onClick={() => setMode("chat")}
           style={{
             flex: 1,
@@ -160,6 +144,22 @@ function Sidebar({ scrollRef }: SidebarProps) {
           }}
         >
           Chat
+        </button>
+        <button
+          onClick={() => setMode("summary")}
+          style={{
+            flex: 1,
+            paddingBlock: "1em",
+            backgroundColor: mode === "summary" ? "#222" : "#333",
+            border: "none",
+            outline: "none",
+            borderRadius: "0.5em",
+            cursor: "pointer",
+            fontWeight: 600,
+            color: "#eee",
+          }}
+        >
+          Summarize
         </button>
       </div>
       {mode === "summary" && (
