@@ -1,22 +1,4 @@
-type ParsedTag = {
-  id: string;
-  text: string;
-};
-
-type SummarizedTag = {
-  id: string;
-  summary: string;
-};
-
-type Definition = {
-  word: string;
-  def: string;
-};
-
-type ServerResponse = {
-  summary: SummarizedTag[];
-  definitions: Definition[];
-};
+import { SummarizedTag, Definition, ParsedTag, ServerResponse } from "./types";
 
 export default class Parser {
   private readonly serverUrl = "http://127.0.0.1:5000";
