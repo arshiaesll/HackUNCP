@@ -10,15 +10,11 @@ sys.path.append(parent_dir)
 sys.path.append(os.path.join(parent_dir, "Util"))
 
 
-from Util.Test import test
-from Util.gemini import generate_paragraph_summary
+from Util.gemini import generate_paragraph_summary, generate_pdf_summary, generate_technical_words
 
 app = Flask(__name__)
 CORS(app)
 
-@app.route("/test")
-def function():
-    return test()
 
 @app.route("/")
 def home():
@@ -42,16 +38,28 @@ def process_html():
         if not paragraphs:
             return jsonify({"error": "Paragraphs not provided"}), 400
 
+        page_summary = generate_pdf_summary(html_page)
+        
+        # Create a list to store paragraph data
+        paragraph_data = []
+        
         for paragraph in paragraphs:
-            summary = generate_paragraph_summary(paragraph)
-            print(summary)
+            summary = generate_paragraph_summary(paragraph["text"])
+            definitions = generate_technical_words(paragraph["text"])
+            # Add each paragraph's data to the list
+            paragraph_data.append({
+                "id": paragraph["id"],
+                "summary": summary,
+                "technical_definitions": definitions
+            })
+        
         # Process the HTML and paragraphs here
         # This is where you'd add your business logic
         
         return jsonify({
             "status": "success",
-            "message": "Received HTML page and paragraphs",
-            "paragraphs_count": len(paragraphs)
+            "message": "Processed HTML page and paragraphs",
+            "paragraphs": paragraph_data,
         })
         
     except Exception as e:
