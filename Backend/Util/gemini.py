@@ -6,22 +6,17 @@ from dotenv import load_dotenv
 load_dotenv()
 
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-model = genai.GenerativeModel(model_name="gemini-2.0-flash")
+model = genai.GenerativeModel(
+    model_name="gemini-2.0-flash",
+    generation_config={
+        "temperature":0.5
+    }
+)
 
 class Manager:
     
     def __init__(self):
         self.paper_summary=''
-    
-    # def generate_pdf_summary(self, paper: str):
-        
-    #     prompt = (
-    #         "Given my research paper summarize the paper:"
-    #         f"{paper}"
-    #     )
-        
-    #     self.paper_summary=self.get_output(prompt)
-    #     return self.paper_summary
     
     def generate_technical_words(self, paragraphs):
         
@@ -29,16 +24,16 @@ class Manager:
             "I am going to provide you a research paper broken down my paragraphs. "
             "Each paragraph is going to have an ID. I want you to find all uncommonly known "
             "technical words and provide their definitions in their context in the paragraph. "
-            "Return the output in the following JSON format: [{id:123, definitions:{'word':'word here','definition':'definition here'} }]"
+            "Return the output in the following JSON format: [{id:123, definitions: {'term':'text','definition':'text'} }]"
+            "If there are 0 words in the given paragraph return that id with an empty list of definitions. "
             f"This is my research paper: {paragraphs}"
         )
         output=self.get_output(prompt)
         words=self.remove_formatting(output)
-        print(words)
+        print('WORDS',words)
         try:
             words_json=json.loads(words)
         except Exception as e:
-            print('Here!!!!!!!')
             return e
         
         return words_json
@@ -55,7 +50,7 @@ class Manager:
         )
         output=self.get_output(prompt)
         words=self.remove_formatting(output)
-        print(words)
+        print('SUMMARIES',words)
         try:
             words_json=json.loads(words)
         except Exception as e:
