@@ -57,6 +57,7 @@ export default function Summary({ paragraphs }: SummaryProps) {
     };
   }, [paragraphs]);
 
+  
   function DefinitionSpan({ word, definition }: { word: string; definition: string }) {
     const [hovered, setHovered] = useState(false);
 
@@ -88,6 +89,7 @@ export default function Summary({ paragraphs }: SummaryProps) {
       </span>
     );
   }
+
   function highlightDefinitions(
     paragraphText: string,
     definitionList?: { word: string; def: string }[]
@@ -95,28 +97,23 @@ export default function Summary({ paragraphs }: SummaryProps) {
     if (!definitionList) {
       return paragraphText;
     }
-  
+
     const tokens = paragraphText.split(/\s+/);
-  
+
     return tokens.map((token, i) => {
       const cleaned = token.replace(/[^\w]/g, "").toLowerCase();
       const match = definitionList.find((d) => d.word.toLowerCase() === cleaned);
-  
+
       if (match) {
         return (
           <React.Fragment key={i}>
-            <DefinitionSpan
-              word={token}
-              definition={match.def}
-            />{" "}
+            <DefinitionSpan word={token} definition={match.def} />{" "}
           </React.Fragment>
         );
       }
       return token + " ";
     });
   }
-  
-
   return (
     <div>
       {shown.map((p) => (
@@ -126,7 +123,7 @@ export default function Summary({ paragraphs }: SummaryProps) {
           onMouseEnter={() => highlightParagraph(p.id)}
           onMouseLeave={() => removeHighlight(p.id)}
         >
-         {highlightDefinitions(p.summary, p.definitions)}
+          {highlightDefinitions(p.summary, p.definitions)}
         </p>
       ))}
     </div>
