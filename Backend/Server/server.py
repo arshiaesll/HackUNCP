@@ -10,7 +10,7 @@ sys.path.append(parent_dir)
 sys.path.append(os.path.join(parent_dir, "Util"))
 
 
-from Util.gemini import generate_paragraph_summary, generate_pdf_summary, generate_technical_words
+from Util.gemini import Manager
 
 app = Flask(__name__)
 CORS(app)
@@ -37,15 +37,15 @@ def process_html():
             return jsonify({"error": "HTML page not provided"}), 400
         if not paragraphs:
             return jsonify({"error": "Paragraphs not provided"}), 400
-
-        page_summary = generate_pdf_summary(html_page)
+        manager = Manager()
+        page_summary = manager.generate_pdf_summary(html_page)
         
         # Create a list to store paragraph data
         paragraph_data = []
         
         for paragraph in paragraphs:
-            summary = generate_paragraph_summary(paragraph["text"])
-            definitions = generate_technical_words(paragraph["text"])
+            summary = manager.generate_paragraph_summary(paragraph["text"])
+            definitions = manager.generate_technical_words(paragraph["text"])
             # Add each paragraph's data to the list
             paragraph_data.append({
                 "id": paragraph["id"],
