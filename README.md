@@ -58,7 +58,6 @@ npm run build
    - Click "Load unpacked"
    - Select the `Extension/dist` directory
 
-## API Endpoints
 
 ## Requirements
 
