@@ -8,93 +8,84 @@ load_dotenv()
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 model = genai.GenerativeModel(model_name="gemini-2.0-flash")
 
-# def generate(text: str, generate_type: str):
-
-#     if not text:
-#         return {"error": "No provided input text"}
-#     res = []
+class Manager:
     
-#     summary=generate_pdf_summary(text)
+    def __init__(self):
+        self.paper_summary=''
     
-#     if generate_type=='paragraph_summary':
-#         res=generate_paragraph_summary(text, summary=summary)
+    def generate_pdf_summary(self, paper: str):
         
-#     elif generate_type=='technical_words':
-#         res=generate_technical_words(text, summary=summary)
+        prompt = (
+            "Given my research paper summarize the paper:"
+            f"{paper}"
+        )
+        
+        self.paper_summary=self.get_output(prompt)
+        return self.paper_summary
 
-#     return res
-
-
-def generate_pdf_summary(text: str):
-     
-    prompt = (
-        "Given my research paper summarize the paper:"
-        f"{text}"
-    )
-    
-    return get_output(prompt)
-
-
-def generate_paragraph_summary(paragraph: str, summary: str):
-    
-    prompt = (
-        "I am going to provide a paragrah and I want you to summarize it. "
-        "Only give me the output of the summary and nothing else. "
-        f"This is the context of the paragraph, CONTEXT: {summary}. "
-        f"This is the paragrah to summarize, PARAGRAPH: {paragraph}"
-
-    )
-    
-    return get_output(prompt)
-
-
-def generate_technical_words(summary: str, paragraph: str):
-    
-    prompt = (
-        f"I am going to provide a paragrah from this paper: {summary}"
-        "I want you to give me all of the uncommonly known technical words and their "
-        f"definitions in the context they are used in the paragraph. "
-        "Give me the output in JSON format like this: [{word:'text', definition:'text'}]. "
-        f"PARAGRAPH: {paragraph}"
-    
-    )
-    output=get_output(prompt)
-    words=remove_formatting(output)
-    try:
-        words_json=json.loads(words)
-    except Exception as e:
-        return e
-    
-    return words_json
+    def generate_paragraph_summary(self, paragraph: str):
+        
+        summary=self.paper_summary
+        
+        if summary:
+            prompt = (
+                "I am going to provide a paragrah and I want you to summarize it. "
+                "Only give me the output of the summary and nothing else. "
+                f"This is the context of the paragraph, CONTEXT: {summary}. "
+                f"This is the paragrah to summarize, PARAGRAPH: {paragraph}"
+            )
+        
+        else:
+            prompt = (
+                "I am going to provide a paragrah and I want you to summarize it. "
+                "Only give me the output of the summary and nothing else. "
+                f"This is the paragrah to summarize, PARAGRAPH: {paragraph}"
+            )
+        return self.get_output(prompt)
 
 
-def get_output(prompt: str):
-    try:
-        response = model.generate_content(prompt)
-        return response.text
-    except Exception as e:
-        return e
+    def generate_technical_words(self, summary: str, paragraph: str):
+        
+        prompt = (
+            f"I am going to provide a paragrah from this paper: {summary}"
+            "I want you to give me all of the uncommonly known technical words and their "
+            f"definitions in the context they are used in the paragraph. "
+            "Give me the output in JSON format like this: [{word:'text', definition:'text'}]. "
+            f"PARAGRAPH: {paragraph}"
+        )
+        output=self.get_output(prompt)
+        words=self.remove_formatting(output)
+        try:
+            words_json=json.loads(words)
+        except Exception as e:
+            return e
+        
+        return words_json
 
+    def get_output(self, prompt: str):
+        try:
+            response = model.generate_content(prompt)
+            return response.text
+        except Exception as e:
+            return e
 
-def remove_formatting(text):
-    # Remove ```json and ```
-    if text.startswith("```json"):
-        text = text[7:]
-    if text.endswith("```"):
-        text = text[:-3]
-    return text
+    def remove_formatting(self, text):
+        # Remove ```json and ```
+        if text.startswith("```json"):
+            text = text[7:]
+        if text.endswith("```"):
+            text = text[:-3]
+        return text
 
-
-def check_json(text):
-    for item in text:
-        if not (isinstance(item, dict) and set(item.keys()) == {'word', 'definition'}):
-            raise ValueError('Invalid JSON format')
-
+    def check_json(self, text):
+        for item in text:
+            if not (isinstance(item, dict) and set(item.keys()) == {'word', 'definition'}):
+                raise ValueError('Invalid JSON format')
 
 
 if __name__ == "__main__":
-    
-    text = """
+
+    paragraph = """
         A large amount of research has been published in
         recent times and is continuing to find an optimal (or
         nearly optimal) prediction model for the stock market.
@@ -113,9 +104,9 @@ if __name__ == "__main__":
         behaviour. To build a fuzzy system one requires some
         background expert knowledge.
     """
-    
-    doc_summary=generate_pdf_summary(text)
-    response = generate_paragraph_summary(text, doc_summary)
+    response=Manager()
+    doc_summary=response.generate_pdf_summary(text)
+    para_summary = response.generate_paragraph_summary(doc_summary, paragraph)
     print(response)
-    words=generate_technical_words(text, doc_summary)
+    words=response.generate_technical_words(paragraph, doc_summary)
     print(words)
