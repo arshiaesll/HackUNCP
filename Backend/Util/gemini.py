@@ -141,6 +141,33 @@ def chat_with_gemini(user_input, history, paragraphs):
     # print("PARAGRAPH ID", para_id)
     
     return response.text, history, para_id
+
+
+def chat_with_gemini_html(user_input, history, context):
+    
+    if not history:
+        default_prompt = (
+            "Given my research paper, you are a chatbot and I want you "
+            "to answer my questions in the context of my paper. This is my paper: "
+            + context
+        )
+        history = []
+        # Initialize the chat with a system message
+        history.append({"role": "user", "parts": [default_prompt]})
+        # Get initial response from model
+        response = model.generate_content(history)
+        history.append({"role": "model", "parts": [response.text]})
+        
+    prompt_prefix = "IN A MAXIMUM OF A FEW SENTENCES GIVE ME A RESPONSE TO: "
+    message = {"role": "user", "parts": [prompt_prefix + user_input]}
+    
+    chat = model.start_chat(history=history)
+    response = chat.send_message(message["parts"][0])
+
+    history.append(message)
+    history.append({"role": "model", "parts": [response.text]})
+
+    return response.text, history
     
 
 if __name__ == "__main__":
