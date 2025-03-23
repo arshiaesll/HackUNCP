@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { RefObject, useEffect, useState } from "react";
 import { fontSize, ProcessedParagraph } from "../util/types";
 import { tagType } from "../util/parser";
 
 type SummaryProps = {
+  scrollRef: RefObject<HTMLDivElement | null>;
   paragraphs: ProcessedParagraph[];
 };
 
-export default function Summary({ paragraphs }: SummaryProps) {
+export default function Summary({ scrollRef, paragraphs }: SummaryProps) {
   const [shown, setShown] = useState<ProcessedParagraph[]>([]);
 
   function highlightParagraph(id: string) {
@@ -49,20 +50,30 @@ export default function Summary({ paragraphs }: SummaryProps) {
       setShown(visible);
     }
 
-    window.addEventListener("scroll", checkParagraphsInView);
+    scrollRef?.current?.addEventListener("scroll", checkParagraphsInView);
     checkParagraphsInView();
 
     return () => {
-      window.removeEventListener("scroll", checkParagraphsInView);
+      scrollRef.current?.removeEventListener("scroll", checkParagraphsInView);
     };
   }, [paragraphs]);
 
-  function DefinitionSpan({ word, definition }: { word: string; definition: string }) {
+  function DefinitionSpan({
+    word,
+    definition,
+  }: {
+    word: string;
+    definition: string;
+  }) {
     const [hovered, setHovered] = useState(false);
 
     return (
       <span
-        style={{ position: "relative", cursor: "help", display: "inline-block" }}
+        style={{
+          position: "relative",
+          cursor: "help",
+          display: "inline-block",
+        }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
@@ -95,27 +106,25 @@ export default function Summary({ paragraphs }: SummaryProps) {
     if (!definitionList) {
       return paragraphText;
     }
-  
+
     const tokens = paragraphText.split(/\s+/);
-  
+
     return tokens.map((token, i) => {
       const cleaned = token.replace(/[^\w]/g, "").toLowerCase();
-      const match = definitionList.find((d) => d.word.toLowerCase() === cleaned);
-  
+      const match = definitionList.find(
+        (d) => d.word.toLowerCase() === cleaned
+      );
+
       if (match) {
         return (
           <React.Fragment key={i}>
-            <DefinitionSpan
-              word={token}
-              definition={match.def}
-            />{" "}
+            <DefinitionSpan word={token} definition={match.def} />{" "}
           </React.Fragment>
         );
       }
       return token + " ";
     });
   }
-  
 
   return (
     <div>
@@ -126,7 +135,7 @@ export default function Summary({ paragraphs }: SummaryProps) {
           onMouseEnter={() => highlightParagraph(p.id)}
           onMouseLeave={() => removeHighlight(p.id)}
         >
-         {highlightDefinitions(p.summary, p.definitions)}
+          {highlightDefinitions(p.summary, p.definitions)}
         </p>
       ))}
     </div>
