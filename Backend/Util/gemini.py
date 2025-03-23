@@ -96,6 +96,17 @@ class Manager:
 #             +self.context
 #         )
 #         self.history = [default_prompt]
+
+def get_para_id(user_input, response, paragraphs):
+    prompt = (
+        "My chatbot is getting a response within the context of my text. Given this question and answer "
+        f"tell me the paragraph id where this response came from. Only give me the id, nothing else. "
+        "If you cannot associate the answer with an id, return an empty message. "
+        f"Question: {user_input}, Answer: {response.text} "        
+        f"Get the id from my paragraphs dictionary here: {paragraphs}"
+    ) 
+    return model.generate_content(prompt).text
+
     
 def chat_with_gemini(user_input, history, paragraphs):
     
@@ -120,15 +131,16 @@ def chat_with_gemini(user_input, history, paragraphs):
     prompt_prefix = "IN A MAXIMUM OF A FEW SENTENCES GIVE ME A RESPONSE TO: "
     message = {"role": "user", "parts": [prompt_prefix + user_input]}
     
-    # Create a proper chat for Gemini
     chat = model.start_chat(history=history)
     response = chat.send_message(message["parts"][0])
-    
-    # Update history with the new message and response
+
     history.append(message)
     history.append({"role": "model", "parts": [response.text]})
 
-    return response.text, history
+    para_id=get_para_id(user_input, response, paragraphs)
+    # print("PARAGRAPH ID", para_id)
+    
+    return response.text, history, para_id
     
 
 if __name__ == "__main__":

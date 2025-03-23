@@ -46,7 +46,7 @@ def chatbot():
         if conversation_id not in conversations.keys():
             conversations[conversation_id] = []
         # print(conversations)
-        response, history = chat_with_gemini(user_input, conversations[conversation_id], paragraphs)
+        response, history, id = chat_with_gemini(user_input, conversations[conversation_id], paragraphs)
         print(history)
         conversations[conversation_id] = history
 

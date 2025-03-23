@@ -156,3 +156,17 @@ Content-Type: application/json
     ]
 }
 
+### Send user input to chatbot endpoint
+POST http://localhost:5002/chat
+Content-Type: application/json
+
+{
+    "user_input": "What is Mesopotamia?",
+    "conversation_id": "123",
+    "paragraphs": [
+        {"id": "p1", "text": "Mesopotamia, often called the cradle of civilization, saw the development of the first writing system, agriculture, and urban centers around 4000 BCE."},
+        {"id": "p2", "text": "Ancient Egypt's civilization flourished along the Nile River, developing sophisticated architecture, hieroglyphic writing, and complex religious beliefs spanning over 3000 years."},
+        {"id": "p3", "text": "The Indus Valley Civilization, with its advanced urban planning and sophisticated drainage systems, thrived in what is now Pakistan and parts of India."}
+    ]
+}
+
