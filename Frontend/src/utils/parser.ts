@@ -49,7 +49,7 @@ export default class Parser {
     const pageContent = document.createElement("div");
     const newBody = document.createElement("body");
     newBody.style.display = "grid";
-    newBody.style.gridTemplateColumns = "3fr 1fr";
+    newBody.style.gridTemplateColumns = "2fr 1fr";
     newBody.appendChild(pageContent);
     newBody.appendChild(sidebar);
     // put document.body children into pageContent
@@ -57,8 +57,9 @@ export default class Parser {
       pageContent.appendChild(document.body.firstChild);
     }
     const html = document.querySelector("html")!;
+    const body = document.querySelector("body")!;
+    html.removeChild(body);
     html.appendChild(newBody);
-    // html.replaceChild(newBody, document.body);
   }
 
   private async summarizeText(parsedTags: ParsedTag[]) {
