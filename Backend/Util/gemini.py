@@ -69,7 +69,15 @@ class Manager:
         summaries=self.generate_paragraph_summary(paragraphs)
         definitions=self.generate_technical_words(paragraphs)
         
-
+        summary_dict = {item['id']: item for item in summaries}
+        definition_dict = {item['id']: item for item in definitions}
+        
+        merged_data = []
+        for id_key in summary_dict.keys() & definition_dict.keys():  # Intersection of keys
+            merged_item = {**summary_dict[id_key], **definition_dict[id_key]}  # Merge dictionaries
+            merged_data.append(merged_item)
+            
+        return merged_data
 
     def get_output(self, prompt: str):
         try:
@@ -86,10 +94,11 @@ class Manager:
             text = text[:-3]
         return text
 
-    def check_json(self, text):
-        for item in text:
-            if not (isinstance(item, dict) and set(item.keys()) == {'word', 'definition'}):
-                raise ValueError('Invalid JSON format')
+
+    # def check_json(self, text):
+    #     for item in text:
+    #         if not (isinstance(item, dict) and set(item.keys()) == {'word', 'definition'}):
+    #             raise ValueError('Invalid JSON format')
 
 
 if __name__ == "__main__":
