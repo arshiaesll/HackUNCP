@@ -42,7 +42,8 @@ def chatbot():
         conversation_id = data.get("conversation_id")
         if not data:
             return jsonify({"error": "No data provided"}), 400
-
+        html = data.get("html")
+        print(html)
         paragraphs = data.get("paragraphs")
 
         if not paragraphs:
@@ -51,15 +52,15 @@ def chatbot():
         if conversation_id not in conversations.keys():
             conversations[conversation_id] = []
         # print(conversations)
-        try:
-            response, history, id = chat_with_gemini(user_input, conversations[conversation_id], paragraphs)
-        except:
-            html = data.get("html")
-            response, history = chat_with_gemini_html(user_input, conversations[conversation_id], html)
-            return jsonify({
-                "status": "success with html",
-                "output_dict": response
-            })
+        # try:
+        #     response, history, id = chat_with_gemini(user_input, conversations[conversation_id], paragraphs)
+        # except:
+        html = data.get("html")
+        response, history = chat_with_gemini_html(user_input, conversations[conversation_id], html)
+        return jsonify({
+            "status": "success with html",
+            "output_dict": response
+        })
 
         
         # print(history)
