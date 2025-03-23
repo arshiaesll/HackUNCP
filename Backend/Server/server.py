@@ -41,14 +41,17 @@ def process_html():
         paragraph_data = []
         print(paragraphs)
         # for paragraph in paragraphs:
-        summary = manager.generate_paragraph_summary(paragraphs)
+        summaries = manager.generate_paragraph_summary(paragraphs)
 
         definitions = manager.generate_technical_words(paragraphs)
         # Add each paragraph's data to the list
-        paragraph_data.append({
-            "summary": summary,
-            "technical_definitions": definitions
-        })
+        for summary in summaries:
+            id = summary["id"]
+            paragraph_data.append({
+                "id": id,
+                "summary": summary,
+                "technical_definitions": definitions[id]
+            })
         
         # Process the HTML and paragraphs here
         # This is where you'd add your business logic
