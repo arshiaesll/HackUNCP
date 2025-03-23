@@ -1,5 +1,5 @@
 ### Send HTML page and paragraphs to process_html endpoint
-POST http://localhost:5002/process_html
+POST http://localhost:5002/
 Content-Type: application/json
 
 {
@@ -11,7 +11,7 @@ Content-Type: application/json
 }
 
 ### Send HTML page and paragraphs to process_html endpoint - Academic Paper Test
-POST http://localhost:5002/process_html
+POST http://localhost:5002/
 Content-Type: application/json
 
 {
@@ -23,7 +23,7 @@ Content-Type: application/json
 }
 
 ### Send HTML page and paragraphs to process_html endpoint - Comprehensive Academic Test
-POST http://localhost:5002/process_html
+POST http://localhost:5002/
 Content-Type: application/json
 
 {
@@ -39,7 +39,7 @@ Content-Type: application/json
 }
 
 ### Send HTML page and paragraphs to process_html endpoint - Psychology Research Test
-POST http://localhost:5002/process_html
+POST http://localhost:5002/
 Content-Type: application/json
 
 {
@@ -66,3 +66,109 @@ Content-Type: application/json
         {"id": "p20", "text": "Digital technology's impact on human psychology has become a crucial area of study. Research examines how social media, smartphones, and constant connectivity affect attention, relationships, and mental health in the modern world."}
     ]
 }
+
+### Send HTML page and paragraphs to process_html endpoint - Technology Trends Test
+POST http://localhost:5002/
+Content-Type: application/json
+
+{
+    "paragraphs": [
+        {"id": "intro_tech", "text": "The technology landscape continues to evolve at an unprecedented pace, with new innovations emerging across multiple sectors. From artificial intelligence to quantum computing, these advancements are reshaping how we live and work."},
+        {"id": "ai_impact", "text": "Artificial Intelligence has become increasingly sophisticated, with applications ranging from autonomous vehicles to medical diagnosis. Machine learning models can now process complex data sets and make predictions with remarkable accuracy."},
+        {"id": "cloud_computing", "text": "Cloud computing has transformed business operations globally. The shift from traditional infrastructure to cloud-based solutions has enabled greater scalability, flexibility, and cost-effectiveness for organizations of all sizes."},
+        {"id": "cybersecurity", "text": "As digital transformation accelerates, cybersecurity has become more critical than ever. Advanced threats and sophisticated attacks require innovative security solutions and proactive defense strategies."},
+        {"id": "future_tech", "text": "Emerging technologies like blockchain, 5G networks, and the Internet of Things (IoT) promise to create new opportunities and challenges. These technologies will likely form the foundation of future digital infrastructure."}
+    ]
+}
+
+### Send HTML page and paragraphs to process_html endpoint - World History Comprehensive Test
+POST http://localhost:5002/
+Content-Type: application/json
+
+{
+    "paragraphs": [
+        {"id": "ancient_mesopotamia", "text": "Mesopotamia, often called the cradle of civilization, saw the development of the first writing system, agriculture, and urban centers around 4000 BCE."},
+        {"id": "egyptian_empire", "text": "Ancient Egypt's civilization flourished along the Nile River, developing sophisticated architecture, hieroglyphic writing, and complex religious beliefs spanning over 3000 years."},
+        {"id": "indus_valley", "text": "The Indus Valley Civilization, with its advanced urban planning and sophisticated drainage systems, thrived in what is now Pakistan and parts of India."},
+        {"id": "ancient_china", "text": "Chinese civilization began along the Yellow River, developing unique cultural elements including oracle bone script, the concept of the Mandate of Heaven, and sophisticated bronze metallurgy."},
+        {"id": "greek_classical", "text": "Classical Greece contributed fundamentally to modern philosophy, democracy, art, and science, particularly during its Golden Age in the 5th century BCE."},
+        {"id": "roman_republic", "text": "The Roman Republic established sophisticated legal systems and governmental structures that would influence civilizations for millennia to come."},
+        {"id": "roman_empire", "text": "The Roman Empire reached its greatest territorial extent under Trajan, encompassing most of Europe, North Africa, and parts of the Middle East."},
+        {"id": "byzantine_era", "text": "The Byzantine Empire preserved Greco-Roman culture while developing its distinct Christian civilization for over a millennium after Rome's fall."},
+        {"id": "islamic_golden", "text": "The Islamic Golden Age saw remarkable advances in mathematics, astronomy, medicine, and philosophy, preserving and building upon ancient knowledge."},
+        {"id": "medieval_europe", "text": "Medieval Europe was characterized by feudalism, the rise of Christianity's influence, and the development of distinctive architectural and artistic styles."},
+        {"id": "mongol_empire", "text": "The Mongol Empire, the largest contiguous land empire in history, facilitated trade and cultural exchange across Eurasia."},
+        {"id": "renaissance_italy", "text": "The Italian Renaissance marked a period of cultural rebirth, with innovations in art, architecture, science, and humanism."},
+        {"id": "age_exploration", "text": "The Age of Exploration saw European nations undertaking maritime voyages, leading to global trade networks and colonial empires."},
+        {"id": "reformation_period", "text": "The Protestant Reformation challenged the Catholic Church's authority, profoundly impacting European society and politics."},
+        {"id": "enlightenment_era", "text": "The Enlightenment emphasized reason, individualism, and skepticism toward traditional institutions and ways of thinking."},
+        {"id": "industrial_rev", "text": "The Industrial Revolution transformed manufacturing, transportation, and social structures through technological innovation."},
+        {"id": "french_revolution", "text": "The French Revolution radically transformed France's political and social structure, influencing modern concepts of citizenship and nationalism."},
+        {"id": "american_independence", "text": "The American Revolution established the first modern democratic republic and influenced independence movements worldwide."},
+        {"id": "napoleon_era", "text": "Napoleon Bonaparte's conquests reshaped European political boundaries and spread revolutionary ideals across the continent."},
+        {"id": "victorian_age", "text": "The Victorian Era saw Britain become the world's leading industrial power and establish a global empire."},
+        {"id": "german_unification", "text": "The unification of Germany under Bismarck created a powerful new nation-state in the heart of Europe."},
+        {"id": "meiji_restoration", "text": "Japan's Meiji Restoration rapidly modernized the country, transforming it into a major world power."},
+        {"id": "ww1_outbreak", "text": "World War I, triggered by complex alliances and nationalism, devastated Europe and redrew its political map."},
+        {"id": "russian_revolution", "text": "The Russian Revolution overthrew the tsarist regime and established the world's first socialist state."},
+        {"id": "great_depression", "text": "The Great Depression caused worldwide economic hardship and contributed to political instability in many countries."},
+        {"id": "ww2_global", "text": "World War II became history's deadliest conflict, involving most of the world's nations and ending with the dawn of the nuclear age."},
+        {"id": "holocaust_tragedy", "text": "The Holocaust resulted in the systematic murder of six million Jews and millions of others by Nazi Germany."},
+        {"id": "cold_war_start", "text": "The Cold War emerged as a geopolitical struggle between the United States and Soviet Union after World War II."},
+        {"id": "decolonization", "text": "The post-war period saw rapid decolonization as European empires granted independence to their colonies."},
+        {"id": "space_race", "text": "The Space Race between the US and USSR drove rapid technological advancement and space exploration."},
+        {"id": "civil_rights", "text": "The Civil Rights Movement in the United States fought for racial equality and inspired similar movements worldwide."},
+        {"id": "vietnam_conflict", "text": "The Vietnam War became a significant Cold War conflict that affected American society and international relations."},
+        {"id": "chinese_revolution", "text": "China's Cultural Revolution dramatically transformed Chinese society under Mao Zedong's leadership."},
+        {"id": "berlin_wall", "text": "The fall of the Berlin Wall in 1989 symbolized the end of the Cold War and Soviet influence in Eastern Europe."},
+        {"id": "soviet_collapse", "text": "The dissolution of the Soviet Union in 1991 ended the Cold War and reshaped global geopolitics."},
+        {"id": "digital_revolution", "text": "The rise of personal computers and the internet transformed communication and commerce globally."},
+        {"id": "globalization_era", "text": "Increased economic interconnectedness and cultural exchange characterized the late 20th century."},
+        {"id": "war_on_terror", "text": "The September 11 attacks led to significant changes in international relations and security policies."},
+        {"id": "great_recession", "text": "The 2008 financial crisis caused the most severe global economic downturn since the Great Depression."},
+        {"id": "arab_spring", "text": "The Arab Spring protests in 2011 led to significant political changes across the Middle East and North Africa."},
+        {"id": "climate_crisis", "text": "Climate change has emerged as a critical global challenge requiring international cooperation."},
+        {"id": "pandemic_impact", "text": "The COVID-19 pandemic caused unprecedented global disruption and accelerated social and economic changes."},
+        {"id": "tech_transformation", "text": "Artificial intelligence and automation continue to reshape work and society in fundamental ways."},
+        {"id": "space_exploration", "text": "Private companies have joined national space agencies in advancing space exploration and commercialization."},
+        {"id": "renewable_energy", "text": "The transition to renewable energy sources has become crucial in addressing climate change."},
+        {"id": "genetic_advances", "text": "Breakthroughs in genetic engineering and biotechnology have opened new frontiers in medicine."},
+        {"id": "quantum_computing", "text": "Quantum computing development promises to revolutionize information processing and cryptography."},
+        {"id": "social_media", "text": "Social media platforms have transformed how people communicate and consume information."},
+        {"id": "urban_growth", "text": "Rapid urbanization has created megacities and new challenges for sustainable development."},
+        {"id": "ocean_conservation", "text": "Marine ecosystem protection has become crucial for maintaining global biodiversity."},
+        {"id": "space_colonization", "text": "Plans for Mars colonization and space settlement represent humanity's next great frontier."}
+    ]
+}
+
+
+### Send user input to chatbot endpoint
+POST http://localhost:5002/chat
+Content-Type: application/json
+
+{
+    "user_input": "What is the capital of France?",
+    "conversation_id": "123",
+    "paragraphs": [
+        {"id": "p1", "text": "The capital of France is Paris."},
+        {"id": "p2", "text": "Paris is known for its Eiffel Tower, Louvre Museum, and Notre-Dame Cathedral."},
+        {"id": "p3", "text": "Paris is also famous for its fashion, gastronomy, and art scene."}
+    ]
+}
+
+
+### Send user input to chatbot endpoint - World History Test
+POST http://localhost:5002/chat
+Content-Type: application/json
+
+{
+    "user_input": "What was my questions about?",
+    "conversation_id": "123",
+    "paragraphs": [
+        {"id": "p1", "text": "The capital of France is Paris."},
+        {"id": "p2", "text": "Paris is known for its Eiffel Tower, Louvre Museum, and Notre-Dame Cathedral."},
+        {"id": "p3", "text": "Paris is also famous for its fashion, gastronomy, and art scene."}
+    ]
+}
+
+

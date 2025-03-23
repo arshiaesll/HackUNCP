@@ -6,12 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-model = genai.GenerativeModel(
-    model_name="gemini-2.0-flash",
-    generation_config={
-        "temperature":0.5
-    }
-)
+model = genai.GenerativeModel(model_name="gemini-2.0-flash")
 
 class Manager:
     
@@ -71,12 +66,14 @@ class Manager:
             
         return merged_data
 
+
     def get_output(self, prompt: str):
         try:
             response = model.generate_content(prompt)
             return response.text.strip()
         except Exception as e:
             return e
+
 
     def remove_formatting(self, text):
         # Remove ```json and ```
@@ -85,13 +82,54 @@ class Manager:
         if text.endswith("```"):
             text = text[:-3]
         return text
+    
+# class ChatbotManager:
+    
+#     def __init__(self, paragraphs, id):
+#         self.context = ""
+#         for paragraph in paragraphs:
+#             self.context+= paragraph["text"]
 
+#         default_prompt=(
+#             "Given my research paper, you are a chatbot and I want you "
+#             "to answer my questions in the context of my paper. This is my paper: "
+#             +self.context
+#         )
+#         self.history = [default_prompt]
+    
+def chat_with_gemini(user_input, history, paragraphs):
+    
+    context = ""
+    for paragraph in paragraphs:
+        context += paragraph["text"]
+    
+    if not history:
+        default_prompt = (
+            "Given my research paper, you are a chatbot and I want you "
+            "to answer my questions in the context of my paper. This is my paper: "
+            + context
+        )
+        history = []
+        # Initialize the chat with a system message
+        history.append({"role": "user", "parts": [default_prompt]})
+        # Get initial response from model
+        response = model.generate_content(history)
+        history.append({"role": "model", "parts": [response.text]})
+        
+    # Add user's new message
+    prompt_prefix = "IN A MAXIMUM OF A FEW SENTENCES GIVE ME A RESPONSE TO: "
+    message = {"role": "user", "parts": [prompt_prefix + user_input]}
+    
+    # Create a proper chat for Gemini
+    chat = model.start_chat(history=history)
+    response = chat.send_message(message["parts"][0])
+    
+    # Update history with the new message and response
+    history.append(message)
+    history.append({"role": "model", "parts": [response.text]})
 
-    # def check_json(self, text):
-    #     for item in text:
-    #         if not (isinstance(item, dict) and set(item.keys()) == {'word', 'definition'}):
-    #             raise ValueError('Invalid JSON format')
-
+    return response.text, history
+    
 
 if __name__ == "__main__":
 

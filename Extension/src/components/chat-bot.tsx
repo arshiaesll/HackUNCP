@@ -25,6 +25,7 @@ export default function ChatBot({ messages, onSend }: ChatBotProps) {
         width: "100%",
         display: "flex",
         flexDirection: "column",
+        paddingBottom: "6em",
       }}
     >
       {messages.map((m) => (

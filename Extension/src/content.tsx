@@ -29,6 +29,7 @@ function PageBody({ innerHtml }: PageBodyProps) {
 }
 
 function Sidebar() {
+  const [convoId, _] = useState(crypto.randomUUID());
   const [mode, setMode] = useState<"summary" | "chat">("summary");
   const [processed, setProcessed] = useState<ProcessedParagraph[]>([]);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -63,15 +64,16 @@ function Sidebar() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          message,
-          paragraphs: pTags.slice(0, 50).map((p) => p.text),
+          user_input: message,
+          paragraphs: pTags.slice(0, 50),
+          conversation_id: convoId,
         }),
       });
       const data = await res.json();
       setMessages((prevMessages) => [
         ...prevMessages,
         { text: message, role: "user" },
-        { text: data, role: "ai" },
+        { text: data.output_dict, role: "ai" },
       ]);
     } catch (error) {
       console.error("Error fetching summaries:", error);
